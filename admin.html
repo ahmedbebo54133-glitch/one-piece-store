@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة التحكم - متجر One Piece</title>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
 
@@ -73,7 +75,7 @@
         /* ======== كروت الإحصائيات ======== */
         .stats-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px; margin-bottom: 35px;
+            gap: 20px; margin-bottom: 25px;
         }
         .stat-card {
             background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(10px);
@@ -91,6 +93,15 @@
         .stat-info h4 { color: #cbd5e1; font-size: 14px; font-weight: 500; margin-bottom: 8px; }
         .stat-info .value { font-size: 28px; font-weight: 800; letter-spacing: 1px; }
         .stat-icon { font-size: 35px; opacity: 0.8; filter: drop-shadow(0 0 8px rgba(255,255,255,0.1)); }
+
+        /* ======== قسم إرسال نقاط يدوية ======== */
+        .manual-section {
+            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px);
+            border: 1px solid rgba(250, 204, 21, 0.3); border-radius: 16px; padding: 20px;
+            margin-bottom: 25px; box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        .manual-title { font-size: 16px; font-weight: 700; color: #facc15; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .manual-grid { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
 
         /* ======== جدول الطلبات ======== */
         .table-container {
@@ -178,6 +189,15 @@
             </div>
         </div>
 
+        <div class="manual-section">
+            <div class="manual-title">🪙 شحن نقاط Belly يدويًا للعملاء</div>
+            <div class="manual-grid">
+                <input type="text" id="manualUserPhone" class="form-control" placeholder="رقم هاتف العميل (مثلاً: 012...)" style="flex: 2; margin-bottom: 0; letter-spacing: normal;">
+                <input type="number" id="manualBellyAmount" class="form-control" placeholder="عدد النقاط المراد إرسالها" style="flex: 1.5; margin-bottom: 0; letter-spacing: normal;">
+                <button type="button" class="login-btn" style="flex: 1; padding: 14px; font-size: 14px;" onclick="sendManualBelly()">⚡ إرسال النقاط للعميل</button>
+            </div>
+        </div>
+
         <div class="table-container">
             <div class="table-header-flex">
                 <div class="table-title">📜 سجل إدارة الشحنات والغنائم</div>
@@ -205,17 +225,55 @@
 </div>
 
 <script>
-    // 📦 محرك التعامل مع قاعدة البيانات
+    // 🌐 إعدادات الاتصال بـ Firebase Cloud Database
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const cloudDb = firebase.firestore();
+
+    // 📦 محرك التعامل مع البيانات السحابية والمحلية
     const DB = {
         getUsers: () => JSON.parse(localStorage.getItem('app_users_db')) || {},
-        saveUsers: (users) => localStorage.setItem('app_users_db', JSON.stringify(users)),
+        saveUsers: (users) => {
+            localStorage.setItem('app_users_db', JSON.stringify(users));
+            cloudDb.collection("store_data").doc("app_users_db").set({ value: users }).catch(err => console.log(err));
+        },
         getOrders: () => JSON.parse(localStorage.getItem('all_orders_db')) || [],
-        saveOrders: (orders) => localStorage.setItem('all_orders_db', JSON.stringify(orders))
+        saveOrders: (orders) => {
+            localStorage.setItem('all_orders_db', JSON.stringify(orders));
+            cloudDb.collection("store_data").doc("all_orders_db").set({ value: orders }).catch(err => console.log(err));
+        }
     };
+
+    // 🔄 دالة مزامنة البيانات من السحابة عند التحميل
+    async function syncDataFromCloud() {
+        try {
+            const ordersDoc = await cloudDb.collection("store_data").doc("all_orders_db").get();
+            if (ordersDoc.exists) {
+                localStorage.setItem('all_orders_db', JSON.stringify(ordersDoc.data().value || []));
+            }
+            const usersDoc = await cloudDb.collection("store_data").doc("app_users_db").get();
+            if (usersDoc.exists) {
+                localStorage.setItem('app_users_db', JSON.stringify(usersDoc.data().value || {}));
+            }
+        } catch (e) {
+            console.log("العمل دون اتصال سحابي مباشر، الاعتماد على التخزين المحلي.");
+        }
+    }
 
     const ADMIN_PASSWORD = "Mohamed#Luffy_54133";
 
-    window.onload = function() {
+    window.onload = async function() {
+        await syncDataFromCloud();
         if (sessionStorage.getItem('isAdminLoggedIn') === 'true') {
             showDashboard();
         }
@@ -238,9 +296,10 @@
         document.getElementById('adminPassInput').value = '';
     }
 
-    function showDashboard() {
+    async function showDashboard() {
         document.getElementById('adminLoginForm').style.display = 'none';
         document.getElementById('adminDashboard').style.display = 'block';
+        await syncDataFromCloud();
         loadOrders();
     }
 
@@ -248,9 +307,64 @@
         const confirmed = confirm('هل أنت متأكد من رغبتك في مسح سجل الشحنات بالكامل؟ لا يمكن التراجع عن هذا الإجراء!');
         if (confirmed) {
             localStorage.removeItem('all_orders_db');
+            cloudDb.collection("store_data").doc("all_orders_db").set({ value: [] }).catch(err => console.log(err));
             alert('🗑️ تم مسح سجل الشحنات بنجاح!');
             loadOrders();
         }
+    }
+
+    function sendManualBelly() {
+        const phone = document.getElementById('manualUserPhone').value.trim();
+        const amountStr = document.getElementById('manualBellyAmount').value.trim();
+        const amount = parseInt(amountStr);
+
+        if (!phone) {
+            alert('⚠️ يرجى إدخال رقم هاتف العميل أولاً!');
+            return;
+        }
+        if (isNaN(amount) || amount <= 0) {
+            alert('⚠️ يرجى إدخال عدد نقاط Belly صحيح وأكبر من الصفر!');
+            return;
+        }
+
+        let users = DB.getUsers();
+        if (!users[phone]) {
+            alert(`❌ لم يتم العثور على حساب مسجل بهذا الرقم (${phone}) في النظام!`);
+            return;
+        }
+
+        const isConfirm = confirm(`هل أنت متأكد من رغبتك في إرسال ${amount} نقطة Belly للعميل (${users[phone].name || phone})؟`);
+        if (!isConfirm) return;
+
+        // تحديث رصيد العميل في قاعدة بيانات المستخدمين
+        users[phone].bellyBalance = (users[phone].bellyBalance || 0) + amount;
+
+        // إضافة العملية إلى سجل طلبات العميل الشخصي
+        if (!users[phone].orders) users[phone].orders = [];
+        const manualOrderId = Math.floor(100000 + Math.random() * 900000);
+        users[phone].orders.unshift({
+            orderId: manualOrderId,
+            pack: `🎁 هدية / شحن نقاط يدوي من الأدمن (${amount} Belly)`,
+            totalAmount: '0.00',
+            bellyEarned: amount,
+            status: 'completed',
+            timestamp: new Date().toISOString()
+        });
+
+        DB.saveUsers(users);
+
+        // تحديث جلسة العميل الحالية إن وُجدت مسجلة في نفس المتصفح
+        const currentSession = JSON.parse(localStorage.getItem('currentUserSession'));
+        if (currentSession && currentSession.phone === phone) {
+            currentSession.bellyBalance = users[phone].bellyBalance;
+            localStorage.setItem('currentUserSession', JSON.stringify(currentSession));
+        }
+
+        alert(`🎉 تم إرسال ${amount} نقطة Belly بنجاح إلى العميل (${users[phone].name || phone})!`);
+        
+        // تفريغ الحقول بعد الإرسال الناجح
+        document.getElementById('manualUserPhone').value = '';
+        document.getElementById('manualBellyAmount').value = '';
     }
 
     function loadOrders() {
@@ -272,7 +386,6 @@
         
         let html = '';
         reversedOrders.forEach((order, reversedIndex) => {
-            // المعرف الحقيقي في المصفوفة الأصلية لتحديث الحالة لاحقاً
             const originalIndex = orders.length - 1 - reversedIndex;
 
             let statusText = '';
@@ -321,7 +434,6 @@
 
         if (!order) return;
 
-        // تأكيد قبل التنفيذ
         const isConfirm = confirm(`هل أنت متأكد أنك تريد تحويل حالة هذا الطلب إلى: ${newStatus === 'completed' ? '✅ مكتمل' : '❌ مرفوض'}؟`);
         if(!isConfirm) return;
 
@@ -334,11 +446,9 @@
             if (userPhone && users[userPhone]) {
                 const user = users[userPhone];
                 
-                // إضافة نقاط Belly والكاش باك للعميل
                 user.bellyBalance = (user.bellyBalance || 0) + Number(order.bellyEarned || 0);
                 user.totalSpent = (user.totalSpent || 0) + parseFloat(order.totalAmount || 0);
                 
-                // تحديث حالة الطلب داخل سجل طلبات هذا العميل
                 if (user.orders) {
                     let userOrder = user.orders.find(o => o.orderId === order.orderId);
                     if (userOrder) {
@@ -348,7 +458,6 @@
 
                 DB.saveUsers(users);
 
-                // إذا كان هذا العميل هو المسجل دخوله حالياً في الموقع، تحديث جلسة currentUserSession
                 const currentSession = JSON.parse(localStorage.getItem('currentUserSession'));
                 if (currentSession && currentSession.phone === userPhone) {
                     currentSession.bellyBalance = user.bellyBalance;

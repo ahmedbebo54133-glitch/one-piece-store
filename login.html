@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول / إنشاء حساب - متجر One Piece</title>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tahoma', sans-serif; }
         body { 
@@ -192,6 +194,21 @@
 </div>
 
 <script>
+    // 🌐 إعدادات الاتصال بـ Firebase Cloud Database
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const cloudDb = firebase.firestore();
+
     // 👑 بيانات الأدمن الرسمية للمتجر
     const ADMIN_DATA = {
         phone: '01140597833',
@@ -207,11 +224,26 @@
         q3: "ما هو اسم شخصيتك المفضلة في ون بيس؟"
     };
 
-    // 📦 محرك التعامل مع قاعدة البيانات
+    // 📦 محرك التعامل مع البيانات السحابية والمحلية
     const DB = {
         getUsers: () => JSON.parse(localStorage.getItem('app_users_db')) || {},
-        saveUsers: (users) => localStorage.setItem('app_users_db', JSON.stringify(users))
+        saveUsers: (users) => {
+            localStorage.setItem('app_users_db', JSON.stringify(users));
+            cloudDb.collection("store_data").doc("app_users_db").set({ value: users }).catch(err => console.log(err));
+        }
     };
+
+    // 🔄 مزامنة قاعدة البيانات سحابياً عند تحميل الصفحة
+    window.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const usersDoc = await cloudDb.collection("store_data").doc("app_users_db").get();
+            if (usersDoc.exists) {
+                localStorage.setItem('app_users_db', JSON.stringify(usersDoc.data().value || {}));
+            }
+        } catch (e) {
+            console.log("العمل دون اتصال سحابي مباشر، الاعتماد على التخزين المحلي.");
+        }
+    });
 
     // 🔒 تشفير كلمة المرور (Base64)
     function hashPassword(pass) {

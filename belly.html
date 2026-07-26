@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام نقاط Belly ฿ - متجر One Piece</title>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tahoma', sans-serif; }
         body { 
@@ -198,16 +200,34 @@
 </div>
 
 <script>
+    // 🌐 إعدادات الاتصال بـ Firebase Cloud Database
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const cloudDb = firebase.firestore();
+
     // ⚙️ إعدادات التليجرام بالتوكن والـ Chat ID الجديد
     const TELEGRAM_CONFIG = {
         token: '8611090451:AAEN933qm6c2SUOczOvHnKJM9BU59rghiE0',
         chatId: '7604770859'
     };
 
-    // 📦 محرك قاعدة البيانات
+    // 📦 محرك قاعدة البيانات السحابية والمحلية
     const DB = {
         getUsers: () => JSON.parse(localStorage.getItem('app_users_db')) || {},
-        saveUsers: (users) => localStorage.setItem('app_users_db', JSON.stringify(users)),
+        saveUsers: (users) => {
+            localStorage.setItem('app_users_db', JSON.stringify(users));
+            cloudDb.collection("store_data").doc("app_users_db").set({ value: users }).catch(err => console.log(err));
+        },
         getCurrentUserPhone: () => {
             const session = JSON.parse(localStorage.getItem('currentUserSession'));
             return session ? session.phone : null;
@@ -219,6 +239,19 @@
             return users[phone] || null;
         }
     };
+
+    // 🔄 مزامنة قاعدة البيانات سحابياً فور فتح الصفحة
+    window.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const usersDoc = await cloudDb.collection("store_data").doc("app_users_db").get();
+            if (usersDoc.exists) {
+                localStorage.setItem('app_users_db', JSON.stringify(usersDoc.data().value || {}));
+            }
+        } catch (e) {
+            console.log("العمل دون اتصال سحابي مباشر، الاعتماد على التخزين المحلي.");
+        }
+        updateUI();
+    });
 
     function hashPassword(pass) {
         return btoa(pass);
@@ -345,7 +378,7 @@
             date: new Date().toLocaleString('ar-EG')
         });
 
-        // 3. حفظ البيانات المحدثة
+        // 3. حفظ البيانات المحدثة سحابياً ومحلياً
         users[currentPhone] = user;
         DB.saveUsers(users);
 
@@ -376,8 +409,6 @@
             }
         }).catch(err => console.error('خطأ في الاتصال بخدمة تيليجرام:', err));
     }
-
-    window.addEventListener('DOMContentLoaded', updateUI);
 </script>
 
 </body>

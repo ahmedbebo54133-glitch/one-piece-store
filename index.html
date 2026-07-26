@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الرئيسية - متجر One Piece</title>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tahoma', sans-serif; }
         body { 
@@ -222,6 +224,21 @@
 </a>
 
 <script>
+    // 🌐 إعدادات الاتصال بـ Firebase Cloud Database
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const cloudDb = firebase.firestore();
+
     // 👑 بيانات الأدمن الرسمية للتحقق
     const ADMIN_PHONE = "01140597833";
     const ADMIN_NAME = "Luffy";
@@ -229,7 +246,7 @@
     // 📞 رقم خدمة العملاء عبر الواتساب
     const WHATSAPP_NUMBER = "201202105198"; 
 
-    // 📦 محرك التعامل مع قاعدة البيانات
+    // 📦 محرك التعامل مع قاعدة البيانات السحابية والمحلية
     const DB = {
         getUsers: () => JSON.parse(localStorage.getItem('app_users_db')) || {},
         getCurrentUserPhone: () => {
@@ -244,7 +261,17 @@
         }
     };
 
-    window.addEventListener('DOMContentLoaded', () => {
+    // 🔄 مزامنة البيانات سحابياً عند فتح الصفحة الرئيسية
+    window.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const usersDoc = await cloudDb.collection("store_data").doc("app_users_db").get();
+            if (usersDoc.exists) {
+                localStorage.setItem('app_users_db', JSON.stringify(usersDoc.data().value || {}));
+            }
+        } catch (e) {
+            console.log("العمل دون اتصال سحابي مباشر، الاعتماد على التخزين المحلي.");
+        }
+
         const currentUser = DB.getCurrentUserData();
         const authBtn = document.getElementById('userAuthBtn');
         const adminBtn = document.getElementById('adminControlBtn');

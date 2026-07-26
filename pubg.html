@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>شحن PUBG Mobile - متجر One Piece</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tahoma', sans-serif; }
         body { 
@@ -351,56 +355,97 @@
 </div>
 
 <script>
-    // 📦 محرك التعامل مع قاعدة البيانات
+    // ☁️ إعدادات وتوصيلة قاعدة بيانات Firebase السحابية
+    const firebaseConfig = {
+        apiKey: "AIzaSyATm_yrPxwaWpLhn7ETNAQSvnLGhvEsGfo",
+        authDomain: "onepiecestore-93a78.firebaseapp.com",
+        databaseURL: "onepiecestore-93a78-default-rtdb.firebaseio.com",
+        projectId: "onepiecestore-93a78",
+        storageBucket: "onepiecestore-93a78.firebasestorage.app",
+        messagingSenderId: "301848276727",
+        appId: "1:301848276727:web:8671bb8f3de00cb6a46df2",
+        measurementId: "G-Y5H8G3XERX"
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const database = firebase.database();
+
+    // 📦 محرك التعامل مع قاعدة البيانات السحابية (مع الاحتفاظ بالتوافقية الكاملة)
     const DB = {
-        getUsers: () => JSON.parse(localStorage.getItem('app_users_db')) || {},
-        saveUsers: (users) => localStorage.setItem('app_users_db', JSON.stringify(users)),
+        getUsers: async () => {
+            try {
+                const snapshot = await database.ref('app_users_db').once('value');
+                return snapshot.val() || {};
+            } catch (e) {
+                return JSON.parse(localStorage.getItem('app_users_db')) || {};
+            }
+        },
+        saveUsers: async (users) => {
+            localStorage.setItem('app_users_db', JSON.stringify(users));
+            await database.ref('app_users_db').set(users);
+        },
         getCurrentUserPhone: () => {
             const session = JSON.parse(localStorage.getItem('currentUserSession'));
             return session ? session.phone : null;
         },
-        getCurrentUserData: () => {
+        getCurrentUserData: async () => {
             const phone = DB.getCurrentUserPhone();
             if (!phone) return null;
-            const users = DB.getUsers();
+            const users = await DB.getUsers();
             return users[phone] || null;
         },
-        updateCurrentUserData: (updateFn) => {
+        updateCurrentUserData: async (updateFn) => {
             const phone = DB.getCurrentUserPhone();
             if (!phone) return false;
-            const users = DB.getUsers();
+            let users = await DB.getUsers();
             if (users[phone]) {
                 updateFn(users[phone]);
-                DB.saveUsers(users);
+                await DB.saveUsers(users);
                 return true;
             }
             return false;
+        },
+        getAllOrders: async () => {
+            try {
+                const snapshot = await database.ref('all_orders_db').once('value');
+                return snapshot.val() || [];
+            } catch (e) {
+                return JSON.parse(localStorage.getItem('all_orders_db')) || [];
+            }
+        },
+        saveAllOrders: async (orders) => {
+            localStorage.setItem('all_orders_db', JSON.stringify(orders));
+            await database.ref('all_orders_db').set(orders);
         }
     };
 
     let cart = [];
     let isBellyApplied = false;
+    let currentUserData = null;
 
-    function initWallet() {
-        const user = DB.getCurrentUserData();
+    async function initWallet() {
+        currentUserData = await DB.getCurrentUserData();
         
-        if (!user) {
+        if (!currentUserData) {
             alert('⚠️ يجب عليك تسجيل الدخول أولاً للتمكن من الشحن والتسوق!');
             window.location.href = 'login.html';
             return;
         }
 
-        const userBelly = user.bellyBalance || 0;
+        const userBelly = currentUserData.bellyBalance || 0;
         document.getElementById('currentBellyBalance').innerText = userBelly;
         document.getElementById('availableBellyCount').innerText = userBelly;
         document.getElementById('availableDiscountEgp').innerText = (userBelly * 0.10).toFixed(2);
 
-        if (user.defaultPlayerId && user.defaultPlayerId !== 'غير محدد') {
+        if (currentUserData.defaultPlayerId && currentUserData.defaultPlayerId !== 'غير محدد') {
             const idInput = document.getElementById('playerId');
             if (idInput && !idInput.value) {
-                idInput.value = user.defaultPlayerId;
+                idInput.value = currentUserData.defaultPlayerId;
             }
         }
+        updateCartUI();
     }
 
     function addToCart(name, price) {
@@ -427,8 +472,7 @@
     }
 
     function toggleBellyDiscount() {
-        const user = DB.getCurrentUserData();
-        const userBelly = user ? (user.bellyBalance || 0) : 0;
+        const userBelly = currentUserData ? (currentUserData.bellyBalance || 0) : 0;
 
         if (userBelly <= 0) {
             alert('ليس لديك نقاط Belly كافية للخصم!');
@@ -454,8 +498,7 @@
         const cashbackEl = document.getElementById('cartCashbackText');
         const bellyBox = document.getElementById('bellyDiscountContainer');
         
-        const user = DB.getCurrentUserData();
-        const userBelly = user ? (user.bellyBalance || 0) : 0;
+        const userBelly = currentUserData ? (currentUserData.bellyBalance || 0) : 0;
         
         if (cart.length === 0) {
             listEl.innerHTML = '<p style="color: #94a3b8; text-align: center; padding: 10px; font-size: 13px;">السلة فارغة حالياً. اختر باقاتك الأسطورية!</p>';
@@ -553,8 +596,8 @@
     }
 
     async function submitOrder() {
-        const user = DB.getCurrentUserData();
-        if (!user) {
+        currentUserData = await DB.getCurrentUserData();
+        if (!currentUserData) {
             alert('⚠️ انتهت الجلسة، يرجى إعادة تسجيل الدخول!');
             window.location.href = 'login.html';
             return;
@@ -562,8 +605,8 @@
 
         const playerId = document.getElementById('playerId').value.trim();
         const paymentMethod = document.getElementById('paymentMethod').value;
-        const profileName = user.name || 'قرصان مغامر';
-        const userPhone = user.phone;
+        const profileName = currentUserData.name || 'قرصان مغامر';
+        const userPhone = currentUserData.phone;
 
         if (cart.length === 0) {
             alert('يرجى اختيار باقة واحدة على الأقل في السلة!');
@@ -601,7 +644,7 @@
                 packNamesOnly.push(`${item.name} x${item.qty}`);
             });
 
-            let currentBelly = user.bellyBalance || 0;
+            let currentBelly = currentUserData.bellyBalance || 0;
             let discountEGP = 0;
             let bellyUsed = 0;
 
@@ -612,7 +655,7 @@
                     discountEGP = originalTotal * 0.5;
                     bellyUsed = Math.ceil(discountEGP / 0.10);
                 }
-                DB.updateCurrentUserData(u => {
+                await DB.updateCurrentUserData(u => {
                     u.bellyBalance = (u.bellyBalance || 0) - bellyUsed;
                 });
             }
@@ -637,18 +680,20 @@
                 bellyEarned: bellyEarned,
                 proofImg: base64Image,
                 status: 'pending',
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleString('ar-EG')
             };
 
-            DB.updateCurrentUserData(u => {
+            await DB.updateCurrentUserData(u => {
                 if (!u.orders) u.orders = [];
                 u.orders.unshift(newOrder);
                 if (playerId) u.defaultPlayerId = playerId;
             });
 
-            let existingOrders = JSON.parse(localStorage.getItem('all_orders_db')) || [];
+            let existingOrders = await DB.getAllOrders();
+            if (!Array.isArray(existingOrders)) existingOrders = [];
             existingOrders.unshift(newOrder);
-            localStorage.setItem('all_orders_db', JSON.stringify(existingOrders));
+            await DB.saveAllOrders(existingOrders);
 
             const now = new Date();
             const timeString = now.toLocaleString('ar-EG');
@@ -684,7 +729,7 @@
                 alert(`✅ تم إرسال طلبك بنجاح!\n⏳ طلبك رقم (#${orderIdNum}) قيد المراجعة، وسوف يتم الشحن وتزويد النقاط لحسابك فور التأكد من التحويل عبر لوحة الأدمن.`);
                 cart = [];
                 isBellyApplied = false;
-                initWallet();
+                await initWallet();
                 updateCartUI();
                 document.getElementById('screenshotFile').value = '';
                 uploadedFile = null;
@@ -694,7 +739,7 @@
                 labelEl.style.borderColor = '#f59e0b';
                 labelEl.style.background = 'rgba(245, 158, 11, 0.1)';
             } else {
-                alert('❌ حدث خطأ أثناء إرسال الصورة للتيليجرام، ولكن تم حفظ الطلب في قُمرة القيادة بنجاح.');
+                alert('❌ حدث خطأ أثناء إرسال الصورة للتيليجرام، ولكن تم حفظ الطلب في السحابة بنجاح.');
             }
 
         } catch (error) {
