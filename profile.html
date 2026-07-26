@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي - متجر One Piece</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tahoma', sans-serif; }
+        body { 
+            background: linear-gradient(135deg, #030712 0%, #0b1329 100%); 
+            color: #f8fafc; direction: rtl; text-align: right; padding: 15px; min-height: 100vh;
+        }
+        .container { max-width: 800px; margin: auto; padding: 5px; }
+
+        header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(12px); 
+            border: 1px solid rgba(245, 158, 11, 0.4); 
+            padding: 12px 18px; border-radius: 12px; margin-bottom: 20px; 
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6); 
+        }
+        header h1 { font-size: 18px; color: #f59e0b; }
+        .back-btn { 
+            background: rgba(30, 41, 59, 0.9); color: #f59e0b; 
+            padding: 6px 12px; border-radius: 8px; text-decoration: none; font-weight: bold; 
+            font-size: 12px; border: 1px solid rgba(245, 158, 11, 0.3); transition: 0.3s; 
+        }
+        .back-btn:hover { background: rgba(245, 158, 11, 0.2); }
+
+        /* كارت الهوية الشخصية */
+        .profile-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+            border: 2px solid #f59e0b; border-radius: 16px; padding: 20px;
+            display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+        }
+        .profile-header-info { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .avatar-box {
+            font-size: 45px; background: rgba(245, 158, 11, 0.1);
+            border: 2px solid #f59e0b; border-radius: 50%; width: 75px; height: 75px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .user-details h2 { color: #f1f5f9; font-size: 18px; margin-bottom: 4px; }
+        .user-rank-badge { 
+            display: inline-block; padding: 4px 10px; border-radius: 20px; 
+            font-size: 12px; font-weight: bold; margin-bottom: 6px; 
+            background: rgba(250, 204, 21, 0.2); border: 1px solid #facc15; color: #facc15;
+        }
+        .user-id-hint { color: #94a3b8; font-size: 12px; }
+
+        /* شريط التقدم للرتبة */
+        .rank-progress-container {
+            background: rgba(15, 23, 42, 0.8); border: 1px solid #334155;
+            padding: 12px 15px; border-radius: 12px;
+        }
+        .progress-title { display: flex; justify-content: space-between; font-size: 12px; color: #cbd5e1; margin-bottom: 6px; }
+        .progress-bar-bg { background: #0f172a; border-radius: 10px; height: 10px; overflow: hidden; border: 1px solid #1e293b; }
+        .progress-bar-fill { background: linear-gradient(90deg, #f59e0b, #facc15); height: 100%; width: 0%; transition: width 0.5s ease; }
+
+        /* احصائيات سريعة */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 25px; }
+        .stat-card {
+            background: rgba(15, 23, 42, 0.8); border: 1px solid #1e293b;
+            border-radius: 12px; padding: 15px; text-align: center;
+        }
+        .stat-value { font-size: 20px; font-weight: bold; color: #10b981; margin-top: 5px; }
+        .stat-label { font-size: 12px; color: #94a3b8; }
+
+        .section-title { 
+            font-size: 16px; color: #f59e0b; margin: 20px 0 12px 0; 
+            border-bottom: 2px solid rgba(245, 158, 11, 0.3); padding-bottom: 6px;
+        }
+
+        /* جدول مميزات الرتب */
+        .ranks-benefits-box {
+            background: rgba(15, 23, 42, 0.9); border: 1px solid #1e293b;
+            border-radius: 12px; padding: 15px; margin-bottom: 25px; font-size: 12px;
+        }
+        .benefit-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.08); }
+        .benefit-row:last-child { border-bottom: none; }
+        .benefit-active { color: #facc15; font-weight: bold; }
+
+        /* إعدادات الحساب */
+        .edit-box {
+            background: rgba(15, 23, 42, 0.9); border: 1px solid #1e293b;
+            border-radius: 12px; padding: 15px; margin-bottom: 25px;
+        }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; color: #cbd5e1; font-size: 12px; margin-bottom: 5px; }
+        .form-control { 
+            width: 100%; padding: 8px 12px; border-radius: 8px; background: #030712; 
+            border: 1px solid #334155; color: white; font-size: 13px; outline: none;
+        }
+        .save-btn {
+            background: #f59e0b; color: #000; border: none; padding: 8px 15px;
+            border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; transition: 0.3s;
+        }
+        .save-btn:hover { background: #d97706; }
+
+        /* زر تسجيل الخروج */
+        .logout-btn {
+            background: linear-gradient(135deg, #ef4444, #991b1b);
+            color: #ffffff; border: 1px solid #fca5a5;
+            padding: 10px 18px; border-radius: 8px;
+            font-size: 13px; font-weight: bold; cursor: pointer;
+            width: 100%; transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .logout-btn:hover {
+            background: linear-gradient(135deg, #dc2626, #7f1d1d);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(239, 68, 68, 0.5);
+        }
+
+        /* سجل الشحنات والاستبدال */
+        .orders-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        .order-card {
+            background: rgba(15, 23, 42, 0.95); border: 1px solid #1e293b;
+            border-radius: 12px; padding: 14px 16px; font-size: 13px;
+        }
+        .order-header { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px; margin-bottom: 8px; }
+        .status-badge { padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; }
+        .status-pending { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .status-completed { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .status-rejected { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>☠️ بطاقة القرصان الشخصية</h1>
+        <a href="index.html" class="back-btn">الرئيسية ⬅</a>
+    </header>
+
+    <div class="profile-card">
+        <div class="profile-header-info">
+            <div class="avatar-box" id="avatarEmoji">🏴‍☠️</div>
+            <div class="user-details">
+                <h2 id="displayUserName">القرصان المغامر</h2>
+                <div class="user-rank-badge" id="displayUserRank">🏴‍☠️ الرتبة: Pirate</div>
+                <div class="user-id-hint" id="displaySavedPhone">رقم الهاتف: غير محدد</div>
+                <div class="user-id-hint" id="displaySavedId" style="margin-top: 3px;">ID اللعبة الافتراضي: غير محدد</div>
+            </div>
+        </div>
+
+        <div class="rank-progress-container">
+            <div class="progress-title">
+                <span id="progressText">التقدم للرتبة التالية (Captain)</span>
+                <span id="progressPercent">0/1000 Belly</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">🪙 رصيد Belly ฿ الحالي</div>
+            <div class="stat-value" id="statBelly" style="color: #facc15;">0 ฿</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">🔥 مضاعف الكاش باك</div>
+            <div class="stat-value" id="statMultiplier" style="color: #38bdf8;">1x</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">💵 قيمة الخصم المتاح</div>
+            <div class="stat-value" id="statEgpDiscount">0.00 EGP</div>
+        </div>
+    </div>
+
+    <div class="section-title">👑 امتيازات الرتب ومضاعف الكاش باك</div>
+    <div class="ranks-benefits-box">
+        <div class="benefit-row" id="rowPirate">
+            <span>🏴‍☠️ Pirate (من 0 Belly)</span>
+            <span>كاش باك أساسي <strong>(1x)</strong></span>
+        </div>
+        <div class="benefit-row" id="rowCaptain">
+            <span>⚔️ Captain (من 1,000 Belly)</span>
+            <span>بونص كاش باك <strong>(1.5x)</strong> 🔥</span>
+        </div>
+        <div class="benefit-row" id="rowYonko">
+            <span>👑 Yonko (من 5,000 Belly)</span>
+            <span>مضاعفة الكاش باك <strong>(2x)</strong> 🚀</span>
+        </div>
+    </div>
+
+    <div class="section-title">🎁 سجل استبدال مكافآت Belly</div>
+    <div class="orders-list" id="userRewardsList"></div>
+
+    <div class="section-title">📜 سجل الشحنات والطلبات</div>
+    <div class="orders-list" id="userOrdersList"></div>
+
+    <div class="section-title">⚙️ تعديل البيانات الشخصية</div>
+    <div class="edit-box">
+        <div class="form-group">
+            <label>اسم القرصان (الاسم في المتجر):</label>
+            <input type="text" id="inputUserName" class="form-control" placeholder="أدخل اسمك أو لقبك">
+        </div>
+        <div class="form-group">
+            <label>Player ID الافتراضي (لحفظه للشحن السريع):</label>
+            <input type="text" id="inputDefaultId" class="form-control" placeholder="أدخل الآيدي الخاص بك في ببجي">
+        </div>
+        <button class="save-btn" onclick="saveProfileData()">💾 حفظ البيانات</button>
+    </div>
+
+    <div class="section-title">🔑 تغيير كلمة المرور</div>
+    <div class="edit-box">
+        <div class="form-group">
+            <label>كلمة المرور الجديدة:</label>
+            <input type="password" id="inputNewPassword" class="form-control" placeholder="أدخل كلمة المرور الجديدة (6 أحرف على الأقل)">
+        </div>
+        <div class="form-group">
+            <label>تأكيد كلمة المرور الجديدة:</label>
+            <input type="password" id="inputConfirmPassword" class="form-control" placeholder="أعد كتابة كلمة المرور الجديدة">
+        </div>
+        <button class="save-btn" style="background: linear-gradient(135deg, #10b981, #047857); color: white;" onclick="changePasswordDirectly()">🔒 تحديث كلمة المرور</button>
+    </div>
+
+    <div style="margin-bottom: 30px;">
+        <button class="logout-btn" onclick="logoutUser()">
+            <span>🚪</span>
+            <span>تسجيل الخروج من الحساب</span>
+        </button>
+    </div>
+</div>
+
+<script>
+    // 📦 محرك التعامل مع قاعدة البيانات
+    const DB = {
+        getUsers: () => JSON.parse(localStorage.getItem('app_users_db')) || {},
+        saveUsers: (users) => localStorage.setItem('app_users_db', JSON.stringify(users)),
+        getCurrentUserPhone: () => {
+            const session = JSON.parse(localStorage.getItem('currentUserSession'));
+            return session ? session.phone : null;
+        },
+        getCurrentUserData: () => {
+            const phone = DB.getCurrentUserPhone();
+            if (!phone) return null;
+            const users = DB.getUsers();
+            return users[phone] || null;
+        },
+        updateCurrentUserData: (updateFn) => {
+            const phone = DB.getCurrentUserPhone();
+            if (!phone) return false;
+            const users = DB.getUsers();
+            if (users[phone]) {
+                updateFn(users[phone]);
+                DB.saveUsers(users);
+                return true;
+            }
+            return false;
+        }
+    };
+
+    // 🔒 تشفير كلمة المرور (Base64)
+    function hashPassword(pass) {
+        return btoa(pass);
+    }
+
+    function loadProfile() {
+        const user = DB.getCurrentUserData();
+
+        if (!user) {
+            alert('⚠️ يجب عليك تسجيل الدخول أولاً لرؤية ملفك الشخصي!');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        const userName = user.name || 'القرصان المغامر';
+        const defaultId = user.defaultPlayerId || 'غير محدد';
+        const belly = user.bellyBalance || 0;
+
+        document.getElementById('displayUserName').innerText = userName;
+        document.getElementById('displaySavedPhone').innerText = 'رقم الهاتف: ' + user.phone;
+        document.getElementById('displaySavedId').innerText = 'ID اللعبة الافتراضي: ' + defaultId;
+        
+        document.getElementById('inputUserName').value = userName !== 'القرصان المغامر' ? userName : '';
+        document.getElementById('inputDefaultId').value = defaultId !== 'غير محدد' ? defaultId : '';
+
+        document.getElementById('statBelly').innerText = belly + ' ฿';
+        document.getElementById('statEgpDiscount').innerText = (belly * 0.10).toFixed(2) + ' EGP';
+
+        // حساب الرتبة
+        let rankName = 'Pirate 🏴‍☠️';
+        let avatarEmoji = '🏴‍☠️';
+        let multiplier = '1x';
+        let progressPercent = 0;
+        let progressText = 'التقدم للرتبة التالية (Captain)';
+        let progressDetail = `${belly}/1000 Belly`;
+
+        document.getElementById('rowPirate').classList.remove('benefit-active');
+        document.getElementById('rowCaptain').classList.remove('benefit-active');
+        document.getElementById('rowYonko').classList.remove('benefit-active');
+
+        if (belly >= 5000) {
+            rankName = 'Yonko 👑 (إمبراطور)';
+            avatarEmoji = '👑';
+            multiplier = '2x 🔥';
+            progressPercent = 100;
+            progressText = 'لقد وصلت لأعلى رتبة! (Yonko)';
+            progressDetail = 'إمبراطور البحار';
+            document.getElementById('rowYonko').classList.add('benefit-active');
+        } else if (belly >= 1000) {
+            rankName = 'Captain ⚔️ (قائد)';
+            avatarEmoji = '⚔️';
+            multiplier = '1.5x ⚡';
+            progressPercent = ((belly - 1000) / (5000 - 1000)) * 100;
+            progressText = 'التقدم للرتبة التالية (Yonko)';
+            progressDetail = `${belly}/5000 Belly`;
+            document.getElementById('rowCaptain').classList.add('benefit-active');
+        } else {
+            progressPercent = (belly / 1000) * 100;
+            document.getElementById('rowPirate').classList.add('benefit-active');
+        }
+
+        document.getElementById('displayUserRank').innerText = 'الرتبة: ' + rankName;
+        document.getElementById('avatarEmoji').innerText = avatarEmoji;
+        document.getElementById('statMultiplier').innerText = multiplier;
+        
+        document.getElementById('progressText').innerText = progressText;
+        document.getElementById('progressPercent').innerText = progressDetail;
+        document.getElementById('progressBarFill').style.width = Math.min(progressPercent, 100) + '%';
+
+        // تحميل سجل الشحنات والمكافآت
+        loadUserRewards(user.rewardsHistory || user.redemptionHistory || []);
+        loadUserOrders(user.orders || []);
+    }
+
+    function loadUserRewards(rewards) {
+        const container = document.getElementById('userRewardsList');
+        if (!rewards || rewards.length === 0) {
+            container.innerHTML = `<div style="text-align:center; color:#64748b; padding:15px; font-size:12px;">لم تقم باستبدال أي مكافآت حتى الآن.</div>`;
+            return;
+        }
+
+        let html = '';
+        rewards.reverse().forEach(item => {
+            html += `
+                <div class="order-card" style="border-color: rgba(250, 204, 21, 0.3);">
+                    <div class="order-header">
+                        <span>🎁 طلب استبدال #${item.orderId || '---'}</span>
+                        <span class="status-badge status-completed">🪙 تم الخصم</span>
+                    </div>
+                    <div><strong>الباقة:</strong> ${item.packageName || ''} | <strong>الخصم:</strong> -${item.bellySpent || 0} Belly | <strong>ID:</strong> ${item.playerId || '---'}</div>
+                    <div style="font-size:10px; color:#94a3b8; margin-top:4px;">⏱ ${item.date || ''}</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function loadUserOrders(orders) {
+        const container = document.getElementById('userOrdersList');
+
+        if (!orders || orders.length === 0) {
+            container.innerHTML = `<div style="text-align:center; color:#64748b; padding:15px; font-size:12px;">لا توجد لديك شحنات سابقة حتى الآن.</div>`;
+            return;
+        }
+
+        let html = '';
+        orders.forEach(order => {
+            let statusBadge = order.status === 'completed' ? 
+                `<span class="status-badge status-completed">✅ تم الشحن</span>` :
+                (order.status === 'rejected' ? `<span class="status-badge status-rejected">❌ مرفوض</span>` : `<span class="status-badge status-pending">⏳ قيد المراجعة</span>`);
+
+            html += `
+                <div class="order-card">
+                    <div class="order-header">
+                        <span>طلب #${order.orderId || '---'}</span>
+                        ${statusBadge}
+                    </div>
+                    <div><strong>الباقة/المبلغ:</strong> ${order.pack || ''} (${order.totalAmount || order.amount || 0} EGP) | <strong>النقاط:</strong> +${order.bellyEarned || 0} Belly</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function saveProfileData() {
+        const nameInput = document.getElementById('inputUserName').value.trim();
+        const idInput = document.getElementById('inputDefaultId').value.trim();
+
+        DB.updateCurrentUserData((user) => {
+            if (nameInput) user.name = nameInput;
+            if (idInput) user.defaultPlayerId = idInput;
+        });
+
+        alert('✅ تم حفظ بيانات الملف الشخصي بنجاح!');
+        loadProfile();
+    }
+
+    // 🔑 تغيير كلمة المرور مباشرة
+    function changePasswordDirectly() {
+        const newPass = document.getElementById('inputNewPassword').value.trim();
+        const confirmPass = document.getElementById('inputConfirmPassword').value.trim();
+
+        if (!newPass || !confirmPass) {
+            alert('⚠️ يرجى إدخال كلمة المرور الجديدة وتأكيدها!');
+            return;
+        }
+
+        if (newPass.length < 6) {
+            alert('⚠️ يجب أن تكون كلمة المرور 6 أحرف/أرقام على الأقل!');
+            return;
+        }
+
+        if (newPass !== confirmPass) {
+            alert('❌ كلمة المرور وتأكيدها غير متطابقين!');
+            return;
+        }
+
+        DB.updateCurrentUserData((user) => {
+            user.password = hashPassword(newPass);
+        });
+
+        alert('🔒 تم تحديث كلمة المرور بنجاح!');
+        document.getElementById('inputNewPassword').value = '';
+        document.getElementById('inputConfirmPassword').value = '';
+    }
+
+    function logoutUser() {
+        if (confirm('هل أنت تأكد من تسجيل الخروج من حسابك؟')) {
+            localStorage.removeItem('currentUserSession');
+            alert('👋 تم تسجيل الخروج بنجاح!');
+            window.location.href = 'index.html';
+        }
+    }
+
+    window.onload = loadProfile;
+</script>
+
+</body>
+</html>
