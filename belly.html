@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام نقاط Belly ฿ - متجر One Piece</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tahoma', sans-serif; }
+        body { 
+            background: linear-gradient(135deg, #030712 0%, #0b1329 100%); 
+            color: #f8fafc; direction: rtl; text-align: right; padding: 15px; min-height: 100vh;
+        }
+        .container { max-width: 800px; margin: auto; padding: 10px; }
+
+        /* الهيدر */
+        header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(12px); 
+            border: 1px solid rgba(234, 179, 8, 0.4); 
+            padding: 14px 20px; border-radius: 14px; margin-bottom: 25px; 
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5); 
+        }
+        header h1 { font-size: 20px; color: #facc15; text-shadow: 0 0 10px rgba(250, 204, 21, 0.5); }
+
+        .back-btn { 
+            background: rgba(30, 41, 59, 0.9); color: #facc15; 
+            padding: 7px 15px; border-radius: 8px; text-decoration: none; font-weight: bold; 
+            font-size: 13px; border: 1px solid rgba(250, 204, 21, 0.3); transition: 0.3s; 
+        }
+        .back-btn:hover { background: rgba(250, 204, 21, 0.2); transform: scale(1.05); }
+
+        /* كارت رصيد الكاش باك */
+        .balance-card {
+            background: linear-gradient(135deg, #3b0764, #1e1b4b, #431407);
+            border: 2px solid #facc15; padding: 30px 20px; border-radius: 18px;
+            text-align: center; margin-bottom: 25px; position: relative; overflow: hidden;
+            box-shadow: 0 0 30px rgba(250, 204, 21, 0.25);
+        }
+        .coin-icon {
+            font-size: 50px; margin-bottom: 10px; display: inline-block;
+            filter: drop-shadow(0 0 10px #facc15);
+            animation: pulseCoin 2s infinite ease-in-out;
+        }
+        @keyframes pulseCoin {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .balance-card h2 { color: #facc15; font-size: 18px; margin-bottom: 8px; }
+        .belly-amount { font-size: 42px; font-weight: bold; color: #ffffff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.6); margin-bottom: 8px; }
+        .egp-value { color: #4ade80; font-size: 14px; font-weight: bold; }
+
+        .section-title { font-size: 18px; color: #facc15; margin: 25px 0 15px 0; display: flex; align-items: center; gap: 8px; }
+
+        /* شبكة باقات الاستبدال */
+        .rewards-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 30px;
+        }
+        .reward-card {
+            background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(250, 204, 21, 0.3);
+            border-radius: 14px; padding: 18px; text-align: center; transition: 0.3s;
+            display: flex; flex-direction: column; justify-content: space-between; gap: 10px;
+        }
+        .reward-card:hover { border-color: #facc15; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(250, 204, 21, 0.2); }
+        .reward-title { font-size: 16px; font-weight: bold; color: #ffffff; }
+        .reward-cost { color: #facc15; font-weight: bold; font-size: 18px; }
+        .reward-btn {
+            background: linear-gradient(135deg, #10b981, #047857); color: white;
+            padding: 9px 15px; border-radius: 8px; border: none; font-weight: bold;
+            cursor: pointer; font-size: 13px; transition: 0.3s;
+        }
+        .reward-btn:hover { background: linear-gradient(135deg, #059669, #065f46); }
+
+        /* مستويات الكاش باك */
+        .tiers-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        .tier-card {
+            background: rgba(15, 23, 42, 0.8); border: 1px solid #1e293b;
+            border-radius: 12px; padding: 16px; text-align: center; transition: 0.3s;
+        }
+        .tier-card.active { border-color: #facc15; background: rgba(30, 41, 59, 0.9); box-shadow: 0 0 15px rgba(250, 204, 21, 0.2); }
+        .tier-icon { font-size: 30px; margin-bottom: 6px; }
+        .tier-title { color: #facc15; font-size: 16px; font-weight: bold; margin-bottom: 4px; }
+        .tier-desc { color: #94a3b8; font-size: 12px; }
+
+        /* Modal الاستبدال */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); z-index: 1000;
+            justify-content: center; align-items: center; padding: 15px;
+        }
+        .modal-card {
+            background: #0f172a; border: 2px solid #facc15; border-radius: 16px;
+            padding: 22px; width: 100%; max-width: 400px; text-align: right;
+            box-shadow: 0 0 25px rgba(250, 204, 21, 0.3);
+        }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; color: #cbd5e1; font-size: 12px; margin-bottom: 5px; }
+        .form-control { 
+            width: 100%; padding: 10px; border-radius: 8px; background: #030712; 
+            border: 1px solid #334155; color: white; font-size: 13px; outline: none;
+        }
+        .confirm-btn {
+            background: linear-gradient(135deg, #10b981, #047857); color: white;
+            padding: 10px; border-radius: 8px; border: none; font-weight: bold;
+            width: 100%; cursor: pointer; font-size: 14px; margin-top: 8px;
+        }
+        .cancel-btn {
+            background: #ef4444; color: white; padding: 8px; border-radius: 8px;
+            border: none; font-weight: bold; width: 100%; cursor: pointer; font-size: 12px; margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🪙 متجر استبدال Belly ฿</h1>
+        <a href="index.html" class="back-btn">⬅ الرئيسية</a>
+    </header>
+
+    <div class="balance-card">
+        <div class="coin-icon">🪙</div>
+        <h2>رصيد الكاش باك الخاص بك</h2>
+        <div class="belly-amount" id="displayBelly">0 ฿</div>
+        <div class="egp-value" id="displayEgp">قيمة الخصم المتاح: EGP 0.00</div>
+    </div>
+
+    <div class="section-title">🎁 اختر مكافأتك لاستبدال النقاط</div>
+    <div class="rewards-grid">
+        <div class="reward-card">
+            <div>
+                <div style="font-size: 30px;">🎮</div>
+                <div class="reward-title">60 شدة PUBG</div>
+            </div>
+            <div class="reward-cost">500 ฿</div>
+            <button class="reward-btn" onclick="openRedeemModal('60 شدة PUBG', 500)">استبدال الآن 💥</button>
+        </div>
+
+        <div class="reward-card">
+            <div>
+                <div style="font-size: 30px;">🚀</div>
+                <div class="reward-title">325 شدة PUBG</div>
+            </div>
+            <div class="reward-cost">2,500 ฿</div>
+            <button class="reward-btn" onclick="openRedeemModal('325 شدة PUBG', 2500)">استبدال الآن 💥</button>
+        </div>
+
+        <div class="reward-card">
+            <div>
+                <div style="font-size: 30px;">👑</div>
+                <div class="reward-title">660 شدة PUBG</div>
+            </div>
+            <div class="reward-cost">5,000 ฿</div>
+            <button class="reward-btn" onclick="openRedeemModal('660 شدة PUBG', 5000)">استبدال الآن 💥</button>
+        </div>
+    </div>
+
+    <div class="section-title">👑 مستويات الكاش باك للقرصان</div>
+    
+    <div class="tiers-list">
+        <div class="tier-card" id="tierPirate">
+            <div class="tier-icon">🏴‍☠️</div>
+            <div class="tier-title">مستوى Pirate</div>
+            <div class="tier-desc">كاش باك 1x نقاط Belly عند كل عملية شحن</div>
+        </div>
+
+        <div class="tier-card" id="tierCaptain">
+            <div class="tier-icon">⚔️</div>
+            <div class="tier-title">مستوى Captain</div>
+            <div class="tier-desc">بعد تجميع 1,000 Belly (كاش باك 1.5x أسرع 🔥)</div>
+        </div>
+
+        <div class="tier-card" id="tierYonko">
+            <div class="tier-icon">👑</div>
+            <div class="tier-title">مستوى Yonko</div>
+            <div class="tier-desc">بعد تجميع 5,000 Belly (مضاعفة الكاش باك 2x 🚀)</div>
+        </div>
+    </div>
+</div>
+
+<div id="redeemModal" class="modal-overlay">
+    <div class="modal-card">
+        <h3 style="color: #facc15; font-size: 16px; margin-bottom: 12px; text-align: center;">🔒 تأكيد استبدال نقاط Belly</h3>
+        <p id="modalPackInfo" style="font-size: 13px; color: #cbd5e1; margin-bottom: 15px; text-align: center; font-weight: bold;"></p>
+        
+        <div class="form-group">
+            <label>Player ID في اللعبة: <span style="color:#ef4444">*</span></label>
+            <input type="text" id="redeemPlayerId" class="form-control" placeholder="أدخل الآيدي الخاص بك (أرقام فقط)">
+        </div>
+
+        <div class="form-group">
+            <label>كلمة مرور حسابك للتأكيد: <span style="color:#ef4444">*</span></label>
+            <input type="password" id="redeemPassword" class="form-control" placeholder="أدخل كلمة المرور الحالية">
+        </div>
+
+        <button class="confirm-btn" onclick="processRedemption()">✅ إتمام الاستبدال</button>
+        <button class="cancel-btn" onclick="closeRedeemModal()">إلغاء</button>
+    </div>
+</div>
+
+<script>
+    // ⚙️ إعدادات التليجرام بالتوكن والـ Chat ID الجديد
+    const TELEGRAM_CONFIG = {
+        token: '8611090451:AAEN933qm6c2SUOczOvHnKJM9BU59rghiE0',
+        chatId: '7604770859'
+    };
+
+    // 📦 محرك قاعدة البيانات
+    const DB = {
+        getUsers: () => JSON.parse(localStorage.getItem('app_users_db')) || {},
+        saveUsers: (users) => localStorage.setItem('app_users_db', JSON.stringify(users)),
+        getCurrentUserPhone: () => {
+            const session = JSON.parse(localStorage.getItem('currentUserSession'));
+            return session ? session.phone : null;
+        },
+        getCurrentUserData: () => {
+            const phone = DB.getCurrentUserPhone();
+            if (!phone) return null;
+            const users = DB.getUsers();
+            return users[phone] || null;
+        }
+    };
+
+    function hashPassword(pass) {
+        return btoa(pass);
+    }
+    function verifyPassword(inputPass, storedPass) {
+        return hashPassword(inputPass) === storedPass || inputPass === storedPass;
+    }
+
+    let selectedPackage = null;
+    let selectedCost = 0;
+
+    function updateUI() {
+        const user = DB.getCurrentUserData();
+
+        if (!user) {
+            alert('⚠️ يجب عليك تسجيل الدخول أولاً لرؤية واستبدال نقاطك!');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        const userBelly = user.bellyBalance || 0;
+        document.getElementById('displayBelly').innerText = userBelly + ' ฿';
+        const egpDiscount = (userBelly * 0.10).toFixed(2);
+        document.getElementById('displayEgp').innerText = `قيمة الخصم المتاح: EGP ${egpDiscount}`;
+
+        document.getElementById('tierPirate').classList.remove('active');
+        document.getElementById('tierCaptain').classList.remove('active');
+        document.getElementById('tierYonko').classList.remove('active');
+
+        if (userBelly >= 5000) {
+            document.getElementById('tierYonko').classList.add('active');
+        } else if (userBelly >= 1000) {
+            document.getElementById('tierCaptain').classList.add('active');
+        } else {
+            document.getElementById('tierPirate').classList.add('active');
+        }
+    }
+
+    function openRedeemModal(packageName, cost) {
+        const user = DB.getCurrentUserData();
+        if (!user) return;
+
+        if ((user.bellyBalance || 0) < cost) {
+            alert(`❌ رصيدك الحالي (${user.bellyBalance || 0} Belly) غير كافٍ لاستبدال ${packageName}! يرجى تجميع ${cost} Belly أولاً.`);
+            return;
+        }
+
+        selectedPackage = packageName;
+        selectedCost = cost;
+
+        document.getElementById('modalPackInfo').innerText = `الباقة: ${packageName} | التكلفة: ${cost} Belly`;
+        document.getElementById('redeemPassword').value = '';
+        
+        let validId = user.defaultPlayerId;
+        if (!validId || validId === 'غير محدد' || validId.toUpperCase() === 'ADMIN') {
+            validId = '';
+        }
+        document.getElementById('redeemPlayerId').value = validId;
+        document.getElementById('redeemModal').style.display = 'flex';
+    }
+
+    function closeRedeemModal() {
+        document.getElementById('redeemModal').style.display = 'none';
+    }
+
+    function processRedemption() {
+        const playerId = document.getElementById('redeemPlayerId').value.trim();
+        const passwordInput = document.getElementById('redeemPassword').value.trim();
+
+        if (!playerId) {
+            alert('⚠️ يرجى كتابة Player ID صحيح في اللعبة!');
+            return;
+        }
+
+        if (playerId.toUpperCase() === 'ADMIN') {
+            alert('❌ لا يمكن استخدام كلمة ADMIN في خانة Player ID!');
+            return;
+        }
+
+        if (!passwordInput) {
+            alert('⚠️ يرجى إدخال كلمة مرور الحساب للتأكيد الأمني!');
+            return;
+        }
+
+        const currentPhone = DB.getCurrentUserPhone();
+        let users = DB.getUsers();
+        let user = users[currentPhone];
+
+        if (!user || !verifyPassword(passwordInput, user.password)) {
+            alert('❌ كلمة المرور غير صحيحة! تم إيقاف عملية الاستبدال.');
+            return;
+        }
+
+        if (user.bellyBalance < selectedCost) {
+            alert('❌ رصيد النقاط غير كافٍ!');
+            closeRedeemModal();
+            return;
+        }
+
+        // 1. خصم النقاط من رصيد الكاش باك
+        user.bellyBalance -= selectedCost;
+
+        // 2. إنشاء الطلب وإضافته لقائمة orders (لكي يظهر بداخل لوحة تحكم الأدمن بشكل مضمون)
+        const orderId = 'REWARD-' + Math.floor(100000 + Math.random() * 900000);
+        const orderData = {
+            orderId: orderId,
+            pack: selectedPackage + ' (استبدال Belly)',
+            totalAmount: 0,
+            bellyEarned: -selectedCost,
+            playerId: playerId,
+            status: 'pending',
+            date: new Date().toLocaleString('ar-EG')
+        };
+
+        if (!user.orders) user.orders = [];
+        user.orders.push(orderData);
+
+        if (!user.rewardsHistory) user.rewardsHistory = [];
+        user.rewardsHistory.push({
+            orderId: orderId,
+            packageName: selectedPackage,
+            bellySpent: selectedCost,
+            playerId: playerId,
+            date: new Date().toLocaleString('ar-EG')
+        });
+
+        // 3. حفظ البيانات المحدثة
+        users[currentPhone] = user;
+        DB.saveUsers(users);
+
+        // 4. إرسال الطلب فوراً عبر Telegram إلى حساب الأدمن بالتوكن الجديد
+        sendTelegramRewardNotification(user, orderData);
+
+        alert(`🎉 تم إرسال طلب استبدال ${selectedPackage} بنجاح وتم وضعه في سجل طلبات الأدمن!`);
+        closeRedeemModal();
+        updateUI();
+    }
+
+    function sendTelegramRewardNotification(user, order) {
+        const msg = `🎁 *طلب استبدال نقاط Belly جديد!*
+--------------------------------
+🆔 *رقم الطلب:* \`${order.orderId}\`
+👤 *اسم العميل:* ${user.name || 'غير محدد'}
+📞 *رقم الهاتف:* \`${user.phone}\`
+🎮 *Player ID:* \`${order.playerId}\`
+📦 *الباقة:* ${order.pack}
+🪙 *الرصيد المتبقي:* ${user.bellyBalance} Belly
+⏱ *التاريخ:* ${order.date}`;
+
+        const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/sendMessage?chat_id=${TELEGRAM_CONFIG.chatId}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`;
+
+        fetch(url).then(response => {
+            if (!response.ok) {
+                console.error('فشل إرسال التيليجرام، رمز الخطأ:', response.status);
+            }
+        }).catch(err => console.error('خطأ في الاتصال بخدمة تيليجرام:', err));
+    }
+
+    window.addEventListener('DOMContentLoaded', updateUI);
+</script>
+
+</body>
+</html>
