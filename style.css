@@ -1,0 +1,412 @@
+/* style.css - ONE PIECE STORE Theme */
+
+@import url('https://fonts.googleapis.com/css2?family=Changa:wght@400;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Changa', sans-serif;
+}
+
+body {
+    background: #0b0d12;
+    background-image: radial-gradient(circle at top, #1c2740 0%, transparent 45%);
+    color: #fff;
+    direction: rtl;
+    padding-bottom: 40px;
+    min-height: 100vh;
+}
+
+/* الهيدر والعنوان */
+header {
+    padding: 45px 20px 25px;
+    text-align: center;
+    position: relative;
+}
+
+.btn-back {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    color: #ffc107;
+    text-decoration: none;
+    font-size: 14px;
+    background: #171c24;
+    padding: 6px 14px;
+    border-radius: 10px;
+    border: 1px solid #2b3440;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-back:active {
+    transform: scale(0.95);
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    border-radius: 50%;
+    background: #181c24;
+    border: 2px solid #ffc107;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 34px;
+    box-shadow: 0 0 20px rgba(255, 193, 7, .25);
+}
+
+h1 {
+    margin-top: 15px;
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffd54f;
+}
+
+header p {
+    margin-top: 6px;
+    color: #9da6b2;
+    font-size: 14px;
+}
+
+.title {
+    text-align: center;
+    margin: 10px 20px 25px;
+}
+
+.title h2 {
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.title span {
+    color: #8f98a5;
+    font-size: 14px;
+}
+
+/* الحاوية والكروت الرئيسية */
+.container {
+    width: 92%;
+    max-width: 480px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.card {
+    background: #171c24;
+    border: 1px solid #2b3440;
+    border-radius: 18px;
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    transition: .3s;
+}
+
+.card:hover, .card:active {
+    transform: translateY(-3px);
+    border-color: #ffc107;
+    box-shadow: 0 0 18px rgba(255, 193, 7, .2);
+}
+
+.left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.icon {
+    width: 52px;
+    height: 52px;
+    background: #222a35;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+}
+
+.card h3 {
+    font-size: 17px;
+    margin-bottom: 2px;
+}
+
+.card p {
+    font-size: 13px;
+    color: #9da6b2;
+}
+
+.arrow {
+    font-size: 24px;
+    color: #ffc107;
+}
+
+/* شبكة اختيار الباقات (صفحات الشحن) */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.pkg-card {
+    background: #171c24;
+    border: 1px solid #2b3440;
+    padding: 16px 12px;
+    border-radius: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+    user-select: none;
+}
+
+.pkg-card.active {
+    border-color: #ffc107;
+    background: #222a35;
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.25);
+}
+
+.pkg-card .title, .pkg-card .pkg-title {
+    font-size: 15px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.pkg-card .price, .pkg-card .pkg-price {
+    color: #ffd54f;
+    font-weight: 800;
+    font-size: 16px;
+    display: block;
+}
+
+/* قسم إدخال البيانات والدفع */
+.form-box {
+    background: #171c24;
+    border: 1px solid #2b3440;
+    border-radius: 18px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    font-size: 14px;
+    color: #ffd54f;
+}
+
+.input-group input {
+    background: #0b0d12;
+    border: 1px solid #2b3440;
+    padding: 12px 15px;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #ffc107;
+}
+
+.pay-card {
+    background: #222a35;
+    border: 1px dashed #ffc107;
+    padding: 14px;
+    border-radius: 12px;
+    text-align: center;
+    margin: 15px 0;
+}
+
+.pay-card p {
+    font-size: 13px;
+    color: #9da6b2;
+}
+
+.pay-num {
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffd54f;
+    margin-top: 6px;
+    cursor: pointer;
+    display: block;
+}
+
+.btn-send, .btn-submit {
+    width: 100%;
+    background: #ffc107;
+    color: #000;
+    font-weight: 800;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-send:active, .btn-submit:active {
+    transform: scale(0.98);
+}
+
+/* شبكة المميزات والدعم الفني */
+.features {
+    margin: 35px auto;
+    width: 92%;
+    max-width: 480px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.feature {
+    background: #171c24;
+    border: 1px solid #2b3440;
+    border-radius: 14px;
+    padding: 15px 8px;
+    text-align: center;
+}
+
+.feature div {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.feature span {
+    font-size: 13px;
+    color: #b8c0ca;
+}
+
+/* تخصيص زر الدعم الفني كـ رابط */
+.feature.support-btn {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    display: block;
+    transition: 0.2s;
+}
+
+.feature.support-btn:hover, .feature.support-btn:active {
+    border-color: #ffc107;
+    box-shadow: 0 0 12px rgba(255, 193, 7, 0.25);
+    transform: translateY(-2px);
+}
+
+/* الفوتر */
+footer {
+    margin: 35px 20px 20px;
+    text-align: center;
+    color: #6f7782;
+    font-size: 13px;
+}
+
+.icon-img {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+/* تنسيق صور الباقات */
+.pkg-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin: 0 auto 8px;
+    display: block;
+}
+
+/* أزرار زيادة ونقصان الكمية */
+.qty-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    background: #0b0d12;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid #2b3440;
+}
+
+.qty-btn {
+    background: #ffc107;
+    color: #000;
+    border: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.qty-btn:active {
+    transform: scale(0.9);
+}
+
+.qty-num {
+    font-weight: 800;
+    color: #ffd54f;
+    min-width: 18px;
+    text-align: center;
+}
+
+/* شارة الشارات الأكثر طلباً */
+.badge {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #dc2626;
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* ملخص الطلب */
+.selected-summary {
+    background: #0b0d12;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #2b3440;
+}
+
+.selected-summary ul {
+    list-style: none;
+    margin-top: 8px;
+}
+
+.selected-summary li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #ffd54f;
+    padding: 4px 0;
+    border-bottom: 1px dashed #2b3440;
+}
+
+.total-price-box {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-top: 8px;
+    font-weight: 800;
+    font-size: 16px;
+    color: #ffc107;
+    border-top: 1px solid #ffc107;
+}

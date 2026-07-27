@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شحن PUBG Mobile - ONE PIECE STORE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="btn-back">‹ الرئيسية</a>
+        <div class="logo">☠</div>
+        <h1>PUBG MOBILE</h1>
+        <p>شحن UC سريع وآمن</p>
+    </header>
+
+    <div class="container">
+        
+        <section class="section-box">
+            <h2>1. اختر الباقات المطلوبة 💎</h2>
+            <div class="cards-grid" id="pubgPackages">
+                
+                <div class="pkg-card" id="card-30">
+                    <img src="uc.jpeg" alt="UC" class="pkg-img">
+                    <span class="pkg-title">30 شدة</span>
+                    <span class="pkg-price">30 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_30', '30 شدة', 30, -1)">-</button>
+                        <span class="qty-num" id="qty-pkg_30">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_30', '30 شدة', 30, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card" id="card-60">
+                    <img src="uc.jpeg" alt="UC" class="pkg-img">
+                    <span class="pkg-title">60 شدة</span>
+                    <span class="pkg-price">55 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_60', '60 شدة', 55, -1)">-</button>
+                        <span class="qty-num" id="qty-pkg_60">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_60', '60 شدة', 55, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card" id="card-325">
+                    <img src="uc.jpeg" alt="UC" class="pkg-img">
+                    <span class="pkg-title">325 شدة</span>
+                    <span class="pkg-price">255 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_325', '325 شدة', 255, -1)">-</button>
+                        <span class="qty-num" id="qty-pkg_325">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_325', '325 شدة', 255, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card" id="card-660">
+                    <span class="badge">الأكثر طلباً 🔥</span>
+                    <img src="uc.jpeg" alt="UC" class="pkg-img">
+                    <span class="pkg-title">660 شدة</span>
+                    <span class="pkg-price">500 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_660', '660 شدة', 500, -1)">-</button>
+                        <span class="qty-num" id="qty-pkg_660">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_660', '660 شدة', 500, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card" id="card-1800">
+                    <img src="uc.jpeg" alt="UC" class="pkg-img">
+                    <span class="pkg-title">1800 شدة</span>
+                    <span class="pkg-price">1245 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_1800', '1800 شدة', 1245, -1)">-</button>
+                        <span class="qty-num" id="qty-pkg_1800">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_1800', '1800 شدة', 1245, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card" id="card-3850">
+                    <img src="uc.jpeg" alt="UC" class="pkg-img">
+                    <span class="pkg-title">3850 شدة</span>
+                    <span class="pkg-price">2480 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_3850', '3850 شدة', 2480, -1)">-</button>
+                        <span class="qty-num" id="qty-pkg_3850">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_3850', '3850 شدة', 2480, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card offer">
+                    <img src="uc.jpeg" alt="UC" class="pkg-img">
+                    <span class="pkg-title">باقة أول شراء</span>
+                    <span class="pkg-price">49 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_first', 'باقة أول شراء', 49, -1)">-</button>
+                        <span class="qty-num" id="qty-pkg_first">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_first', 'باقة أول شراء', 49, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card offer">
+                    <img src="uc.jpeg" alt="UC" class="pkg-img">
+                    <span class="pkg-title">الشعار الأسطوري</span>
+                    <span class="pkg-price">219 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_logo', 'الشعار الأسطوري', 219, -1)">-</button>
+                        <span class="qty-num" id="qty-pkg_logo">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_logo', 'الشعار الأسطوري', 219, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card offer">
+                    <img src="uc.jpeg" alt="UC" class="pkg-img">
+                    <span class="pkg-title">مواد تطوير</span>
+                    <span class="pkg-price">135 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_mat', 'مواد تطوير', 135, -1)">-</button>
+                        <span class="qty-num" id="qty-pkg_mat">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('pkg_mat', 'مواد تطوير', 135, 1)">+</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="section-box">
+            <h2>2. تفاصيل البيانات والدفع 💳</h2>
+            
+            <form id="orderForm" onsubmit="handleOrderSubmit(event, 'PUBG Mobile')">
+                
+                <div class="selected-summary">
+                    <span>الباقات المختارة:</span>
+                    <ul id="selectedList">
+                        <li>لم يتم اختيار أي باقة بعد</li>
+                    </ul>
+                    <div class="total-price-box">
+                        <span>الإجمالي:</span>
+                        <span id="totalPrice">0 ج.م</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>آيدي اللاعب (Player ID):</label>
+                    <input type="number" id="playerId" placeholder="أدخل الآيدي المكون من أرقام" required>
+                </div>
+
+                <div class="input-group">
+                    <label>رقم الموبايل / واتساب:</label>
+                    <input type="tel" id="userPhone" placeholder="01xxxxxxxxx" required>
+                </div>
+
+                <div class="pay-card">
+                    <p>قم بتحويل المبلغ عبر فودافون كاش أو InstaPay إلى الرقم:</p>
+                    <span class="pay-num" onclick="copyNumber('01202105198')">
+                        01202105198 📋
+                    </span>
+                </div>
+
+                <div class="input-group">
+                    <label>رفع صورة الإيصال / التحويل 📸:</label>
+                    <input type="file" id="receiptFile" accept="image/*" required>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-send">تأكيد وإرسال الطلب عبر تيليجرام 🚀</button>
+            </form>
+        </section>
+
+    </div>
+
+    <footer>
+        © 2026 ONE PIECE STORE
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="app_logic.js"></script>
+</body>
+</html>

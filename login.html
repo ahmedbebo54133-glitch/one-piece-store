@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الحساب - ONE PIECE STORE</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #2b3440;
+            padding-bottom: 10px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            background: #1e2630;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .tab-btn.active {
+            background: #ffd54f;
+            color: #000;
+        }
+        .auth-form {
+            display: none;
+        }
+        .auth-form.active {
+            display: block;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            background: #182026;
+            border: 1px solid #2b3440;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="btn-back">‹ الرئيسية</a>
+        <div class="logo">☠️</div>
+        <h1>ONE PIECE STORE</h1>
+        <p>تسجيل الدخول / حساب جديد</p>
+    </header>
+
+    <div class="container">
+        
+        <section class="section-box">
+            
+            <div class="auth-tabs">
+                <button type="button" class="tab-btn active" onclick="switchTab('login')">تسجيل الدخول</button>
+                <button type="button" class="tab-btn" onclick="switchTab('register')">حساب جديد</button>
+                <button type="button" class="tab-btn" onclick="switchTab('forgot')">نسيت كلمة السر</button>
+            </div>
+
+            <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <label>رقم الموبايل / الواتساب:</label>
+                    <input type="tel" id="loginPhone" placeholder="01xxxxxxxxx" required>
+                </div>
+
+                <div class="input-group">
+                    <label>كلمة السر:</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-send">تسجيل الدخول 🔓</button>
+            </form>
+
+            <form id="registerForm" class="auth-form" onsubmit="handleRegister(event)">
+                <div class="input-group">
+                    <label>اسم القرصان 🏴‍☠️:</label>
+                    <input type="text" id="regPirateName" placeholder="مثال: لوفي / زورو" required>
+                </div>
+
+                <div class="input-group">
+                    <label>رقم الموبايل / الواتساب:</label>
+                    <input type="tel" id="regPhone" placeholder="01xxxxxxxxx" required>
+                </div>
+
+                <div class="input-group">
+                    <label>كلمة السر:</label>
+                    <input type="password" id="regPassword" placeholder="••••••••" required>
+                </div>
+
+                <div class="input-group">
+                    <label>اختر السؤال الأمني 🔐:</label>
+                    <select id="regSecurityQuestion" required>
+                        <option value="" disabled selected>اختر سؤالاً للاسترجاع...</option>
+                        <option value="q1">ما هي فاكهة الشيطان المفضلة لديك؟</option>
+                        <option value="q2">ما اسم أول طاقم أو أنمي شاهدته؟</option>
+                        <option value="q3">ما هي مدينتك أو مسقط رأسك؟</option>
+                        <option value="q4">ما اسم صديقك المقرب؟</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>إجابة السؤال الأمني:</label>
+                    <input type="text" id="regSecurityAnswer" placeholder="أدخل الإجابة هنا" required>
+                </div>
+
+                <button type="submit" class="btn-send">إنشاء الحساب 🚀</button>
+            </form>
+
+            <form id="forgotForm" class="auth-form" onsubmit="handleForgotPassword(event)">
+                <div class="input-group">
+                    <label>رقم الموبايل المسجل:</label>
+                    <input type="tel" id="forgotPhone" placeholder="01xxxxxxxxx" required>
+                </div>
+
+                <button type="button" class="btn-send" style="background:#2b3440; margin-bottom:15px;" onclick="checkPhoneForQuestion()">عرض السؤال الأمني 🔍</button>
+
+                <div id="questionArea" style="display: none;">
+                    <div class="input-group">
+                        <label id="displayQuestionLabel">السؤال الأمني:</label>
+                        <input type="text" id="forgotAnswer" placeholder="أدخل إجابة السؤال الأمني" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>كلمة السر الجديدة:</label>
+                        <input type="password" id="newPassword" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn-send">تحديث كلمة السر 🔄</button>
+                </div>
+            </form>
+
+        </section>
+
+    </div>
+
+    <footer>
+        © 2026 ONE PIECE STORE
+    </footer>
+
+    <script src="auth.js"></script>
+</body>
+</html>

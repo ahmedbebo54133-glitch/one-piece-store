@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شحن Mobile Legends - ONE PIECE STORE</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .icon-emoji { font-size: 38px; display: block; margin-bottom: 5px; text-align: center; }
+        .sub-title { color: #ffd54f; margin: 20px 0 10px 0; padding-bottom: 5px; border-bottom: 2px solid #2b3440; font-size: 18px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="btn-back">‹ الرئيسية</a>
+        <div class="logo">☠</div>
+        <h1>MOBILE LEGENDS</h1>
+        <p>شحن جواهر Diamonds فورياً</p>
+    </header>
+
+    <div class="container">
+        
+        <section class="section-box">
+            <h2>1. اختر الباقات المطلوبة 💳</h2>
+
+            <h3 class="sub-title">💎 باقات الجواهر</h3>
+            <div class="cards-grid" id="mlGems">
+                
+                <div class="pkg-card">
+                    <span class="icon-emoji">💎</span>
+                    <span class="pkg-title">55 جوهرة</span>
+                    <span class="pkg-price">59 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_55', '55 جوهرة', 59, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_55">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_55', '55 جوهرة', 59, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card">
+                    <span class="icon-emoji">💎</span>
+                    <span class="pkg-title">86 جوهرة</span>
+                    <span class="pkg-price">85 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_86', '86 جوهرة', 85, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_86">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_86', '86 جوهرة', 85, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card">
+                    <span class="icon-emoji">💎</span>
+                    <span class="pkg-title">172 جوهرة</span>
+                    <span class="pkg-price">159 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_172', '172 جوهرة', 159, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_172">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_172', '172 جوهرة', 159, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card">
+                    <span class="badge">الأكثر طلباً 🔥</span>
+                    <span class="icon-emoji">💎</span>
+                    <span class="pkg-title">257 جوهرة</span>
+                    <span class="pkg-price">230 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_257', '257 جوهرة', 230, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_257">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_257', '257 جوهرة', 230, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card">
+                    <span class="icon-emoji">💎</span>
+                    <span class="pkg-title">275 جوهرة</span>
+                    <span class="pkg-price">255 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_275', '275 جوهرة', 255, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_275">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_275', '275 جوهرة', 255, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card">
+                    <span class="icon-emoji">💎</span>
+                    <span class="pkg-title">343 جوهرة</span>
+                    <span class="pkg-price">310 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_343', '343 جوهرة', 310, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_343">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_343', '343 جوهرة', 310, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card">
+                    <span class="icon-emoji">💎</span>
+                    <span class="pkg-title">429 جوهرة</span>
+                    <span class="pkg-price">385 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_429', '429 جوهرة', 385, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_429">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_429', '429 جوهرة', 385, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card">
+                    <span class="icon-emoji">💎</span>
+                    <span class="pkg-title">514 جوهرة</span>
+                    <span class="pkg-price">455 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_514', '514 جوهرة', 455, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_514">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_514', '514 جوهرة', 455, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card">
+                    <span class="icon-emoji">💎</span>
+                    <span class="pkg-title">706 جوهرة</span>
+                    <span class="pkg-price">620 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_706', '706 جوهرة', 620, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_706">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_706', '706 جوهرة', 620, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card">
+                    <span class="icon-emoji">💎</span>
+                    <span class="pkg-title">878 جوهرة</span>
+                    <span class="pkg-price">760 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_878', '878 جوهرة', 760, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_878">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_878', '878 جوهرة', 760, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card">
+                    <span class="icon-emoji">💎</span>
+                    <span class="pkg-title">963 جوهرة</span>
+                    <span class="pkg-price">830 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_963', '963 جوهرة', 830, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_963">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_963', '963 جوهرة', 830, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card">
+                    <span class="icon-emoji">💎</span>
+                    <span class="pkg-title">1412 جوهرة</span>
+                    <span class="pkg-price">1190 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_1412', '1412 جوهرة', 1190, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_1412">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_1412', '1412 جوهرة', 1190, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card">
+                    <span class="icon-emoji">💎</span>
+                    <span class="pkg-title">2195 جوهرة</span>
+                    <span class="pkg-price">1845 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_2195', '2195 جوهرة', 1845, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_2195">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_2195', '2195 جوهرة', 1845, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card">
+                    <span class="icon-emoji">💎</span>
+                    <span class="pkg-title">3688 جوهرة</span>
+                    <span class="pkg-price">3090 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_3688', '3688 جوهرة', 3090, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_3688">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_3688', '3688 جوهرة', 3090, 1)">+</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <h3 class="sub-title">👑 الاشتراكات والبندلات</h3>
+            <div class="cards-grid" id="mlSubs">
+
+                <div class="pkg-card offer">
+                    <span class="icon-emoji">👑</span>
+                    <span class="pkg-title">اشتراك أسبوعي</span>
+                    <span class="pkg-price">99 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_sub_weekly', 'اشتراك أسبوعي', 99, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_sub_weekly">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_sub_weekly', 'اشتراك أسبوعي', 99, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card offer">
+                    <span class="icon-emoji">📦</span>
+                    <span class="pkg-title">بندل أسبوعي</span>
+                    <span class="pkg-price">59 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_bundle_w', 'بندل أسبوعي', 59, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_bundle_w">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_bundle_w', 'بندل أسبوعي', 59, 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="pkg-card offer">
+                    <span class="icon-emoji">📅</span>
+                    <span class="pkg-title">بندل شهري</span>
+                    <span class="pkg-price">245 ج.م</span>
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_bundle_m', 'بندل شهري', 245, -1)">-</button>
+                        <span class="qty-num" id="qty-ml_bundle_m">0</span>
+                        <button type="button" class="qty-btn" onclick="updateQty('ml_bundle_m', 'بندل شهري', 245, 1)">+</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="section-box">
+            <h2>2. تفاصيل البيانات والدفع 💳</h2>
+            
+            <form id="orderForm" onsubmit="handleOrderSubmit(event, 'Mobile Legends')">
+                
+                <div class="selected-summary">
+                    <span>الباقات المختارة:</span>
+                    <ul id="selectedList">
+                        <li>لم يتم اختيار أي باقة بعد</li>
+                    </ul>
+                    <div class="total-price-box">
+                        <span>الإجمالي:</span>
+                        <span id="totalPrice">0 ج.م</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>User ID & Zone ID:</label>
+                    <input type="text" id="playerId" placeholder="مثال: 12345678 (1234)" required>
+                </div>
+
+                <div class="input-group">
+                    <label>رقم الموبايل / واتساب:</label>
+                    <input type="tel" id="userPhone" placeholder="01xxxxxxxxx" required>
+                </div>
+
+                <div class="pay-card">
+                    <p>قم بتحويل المبلغ عبر فودافون كاش أو InstaPay إلى الرقم:</p>
+                    <span class="pay-num" onclick="copyNumber('01202105198')">
+                        01202105198 📋
+                    </span>
+                </div>
+
+                <div class="input-group">
+                    <label>رفع صورة الإيصال / التحويل 📸:</label>
+                    <input type="file" id="receiptFile" accept="image/*" required>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-send">تأكيد وإرسال الطلب عبر تيليجرام 🚀</button>
+            </form>
+        </section>
+
+    </div>
+
+    <footer>
+        © 2026 ONE PIECE STORE
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="app_logic.js"></script>
+</body>
+</html>
