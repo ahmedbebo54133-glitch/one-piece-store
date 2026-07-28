@@ -1,0 +1,1380 @@
+/* =====================================
+   ONE PIECE STORE
+   MOBILE LEGENDS V2 STYLE
+===================================== */
+
+
+/* RESET */
+
+*{
+
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+
+}
+
+
+body{
+
+    background:
+
+    radial-gradient(
+        circle at top,
+        #252525,
+        #050505 65%
+    );
+
+    color:white;
+
+    font-family:'Cairo',sans-serif;
+
+    min-height:100vh;
+
+}
+
+
+
+
+
+/* =========================
+HEADER
+========================= */
+
+
+.game-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:15px 25px;
+
+
+    background:
+
+    linear-gradient(
+        90deg,
+        #050505,
+        #111
+    );
+
+
+    border-bottom:1px solid #d4af37;
+
+
+    box-shadow:
+
+    0 5px 20px rgba(0,0,0,.7);
+
+}
+
+
+
+
+.game-header .logo{
+
+    color:#ffd700;
+
+    font-size:22px;
+
+    font-weight:900;
+
+    letter-spacing:1px;
+
+}
+
+
+
+
+
+.game-header a{
+
+    text-decoration:none;
+
+    color:#000;
+
+
+    background:#ffd700;
+
+
+    padding:9px 20px;
+
+
+    border-radius:25px;
+
+
+    font-weight:bold;
+
+
+    transition:.3s;
+
+}
+
+
+
+
+.game-header a:hover{
+
+
+    transform:scale(1.05);
+
+
+    box-shadow:
+
+    0 0 15px #ffd700;
+
+}
+
+
+
+
+
+/* =========================
+TITLE
+========================= */
+
+
+.game-title{
+
+    text-align:center;
+
+    padding:35px 15px;
+
+}
+
+
+
+
+
+.game-title h1{
+
+    color:#ffd700;
+
+
+    font-size:34px;
+
+
+    text-shadow:
+
+    0 0 15px rgba(255,215,0,.5);
+
+}
+
+
+
+
+
+.game-title p{
+
+    color:#aaa;
+
+    margin-top:8px;
+
+    font-size:15px;
+
+}
+
+
+
+
+
+/* =========================
+SECTIONS
+========================= */
+
+
+.packages,
+.extra-products{
+
+
+    padding:20px;
+
+
+}
+
+
+
+
+.packages h2,
+.extra-products h2{
+
+
+    text-align:center;
+
+
+    color:#ffd700;
+
+
+    font-size:26px;
+
+
+    margin-bottom:25px;
+
+
+}
+/* =========================
+PRODUCT GRID
+========================= */
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:18px;
+
+}
+
+
+
+
+
+/* =========================
+PACKAGE CARD
+STEAM STYLE
+========================= */
+
+
+.package-card{
+
+    background:
+
+    linear-gradient(
+        145deg,
+        #151515,
+        #050505
+    );
+
+
+    border:1px solid rgba(255,215,0,.45);
+
+    border-radius:18px;
+
+    padding:15px 10px;
+
+    text-align:center;
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.35s;
+
+
+    box-shadow:
+
+    0 8px 20px rgba(0,0,0,.6);
+
+}
+
+
+
+
+.package-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:3px;
+
+    background:#ffd700;
+
+    transform:scaleX(0);
+
+    transition:.3s;
+
+}
+
+
+
+.package-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#ffd700;
+
+    box-shadow:
+
+    0 0 25px rgba(255,215,0,.35);
+
+}
+
+
+
+.package-card:hover::before{
+
+    transform:scaleX(1);
+
+}
+
+
+
+
+
+/* =========================
+DIAMOND PACKAGE ICON
+GOLD BLACK STYLE
+========================= */
+
+
+.diamond-icon{
+
+    width:95px;
+
+    height:75px;
+
+    margin:0 auto 12px;
+
+
+    background:
+
+    linear-gradient(
+        145deg,
+        #ffd700,
+        #8b6500
+    );
+
+
+    border:2px solid #fff0a0;
+
+    border-radius:15px;
+
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+
+    position:relative;
+
+    overflow:hidden;
+
+
+    box-shadow:
+
+    0 0 18px rgba(255,215,0,.45);
+
+}
+
+
+
+
+.diamond-icon::before{
+
+    content:"💎";
+
+
+    position:absolute;
+
+    font-size:28px;
+
+    z-index:2;
+
+
+}
+
+
+
+.diamond-icon::after{
+
+    content:"";
+
+
+    position:absolute;
+
+    inset:7px;
+
+
+    background:#050505;
+
+    border-radius:10px;
+
+
+    z-index:1;
+
+}
+
+
+
+
+
+/* عدد الجواهر */
+
+
+.diamond-count{
+
+
+    position:relative;
+
+    z-index:3;
+
+
+    color:#ffd700;
+
+
+    font-size:20px;
+
+
+    font-weight:900;
+
+
+    text-shadow:
+
+    0 2px 5px #000;
+
+
+}
+
+
+
+
+
+
+/* =========================
+TEXT
+========================= */
+
+
+.package-card h3{
+
+    color:#ffd700;
+
+    font-size:18px;
+
+    margin:5px 0;
+
+}
+
+
+
+
+.package-card span{
+
+    color:#999;
+
+    font-size:12px;
+
+}
+
+
+
+
+.package-card h4{
+
+    margin-top:10px;
+
+    color:white;
+
+    font-size:15px;
+
+}
+
+
+
+
+.package-card p{
+
+    color:#ccc;
+
+    font-size:13px;
+
+    margin:8px 0;
+
+}
+
+
+
+
+.package-card strong{
+
+    display:block;
+
+    color:#00ff88;
+
+    font-size:22px;
+
+    margin:10px 0;
+
+}
+/* =========================
+QUANTITY BOX
+========================= */
+
+
+.quantity-box{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-top:12px;
+
+}
+
+
+
+.quantity-box button{
+
+    width:35px;
+
+    height:35px;
+
+    border-radius:50%;
+
+    border:none;
+
+    font-size:22px;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+
+.quantity-box button:hover{
+
+    transform:scale(1.1);
+
+}
+
+
+
+.plus{
+
+    background:#ffd700;
+
+    color:#000;
+
+    box-shadow:
+
+    0 0 12px rgba(255,215,0,.5);
+
+}
+
+
+
+.minus{
+
+    background:#222;
+
+    color:white;
+
+    border:1px solid #555 !important;
+
+}
+
+
+
+
+.qty{
+
+    width:40px;
+
+    height:32px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #d4af37;
+
+
+    border-radius:10px;
+
+
+    color:#ffd700;
+
+
+    font-weight:900;
+
+}
+
+
+
+
+
+/* =========================
+SELECTED PRODUCT
+========================= */
+
+
+.package-card.selected{
+
+
+    border:2px solid #ffd700;
+
+
+    box-shadow:
+
+    0 0 30px rgba(255,215,0,.5);
+
+
+}
+
+
+
+
+
+/* =========================
+ORDER BOX
+STEAM CHECKOUT
+========================= */
+
+
+.order-box{
+
+
+    margin:35px 20px;
+
+
+    padding:25px;
+
+
+
+    background:
+
+
+    linear-gradient(
+
+        145deg,
+
+        #151515,
+
+        #050505
+
+    );
+
+
+
+    border:1px solid #d4af37;
+
+
+    border-radius:25px;
+
+
+
+    box-shadow:
+
+
+    0 0 25px rgba(255,215,0,.15);
+
+
+}
+
+
+
+
+.order-box h2{
+
+
+    text-align:center;
+
+
+    color:#ffd700;
+
+
+    font-size:25px;
+
+
+    margin-bottom:20px;
+
+
+}
+
+
+
+
+
+#cart{
+
+
+    background:#080808;
+
+
+    border:1px solid #333;
+
+
+    border-radius:15px;
+
+
+    padding:15px;
+
+
+    min-height:70px;
+
+
+}
+
+
+
+
+
+.cart-item{
+
+
+    background:
+
+
+    rgba(255,215,0,.08);
+
+
+
+    border-right:4px solid #ffd700;
+
+
+
+    padding:12px;
+
+
+
+    border-radius:12px;
+
+
+
+    margin-bottom:10px;
+
+
+}
+
+
+
+
+.cart-item h4{
+
+
+    color:#ffd700;
+
+
+}
+
+
+
+
+.cart-item p{
+
+
+    color:#ddd;
+
+
+    margin-top:5px;
+
+
+}
+
+
+
+
+#total{
+
+
+    color:#00ff88;
+
+
+    font-size:28px;
+
+
+    font-weight:900;
+
+
+}
+
+
+
+
+
+
+/* INPUTS */
+
+
+.order-box input{
+
+
+    width:100%;
+
+
+    height:48px;
+
+
+
+    margin-top:12px;
+
+
+
+    padding:12px;
+
+
+
+
+    background:#0b0b0b;
+
+
+    color:white;
+
+
+
+
+    border:1px solid #444;
+
+
+
+    border-radius:12px;
+
+
+
+    outline:none;
+
+
+}
+
+
+
+
+
+.order-box input:focus{
+
+
+    border-color:#ffd700;
+
+
+}
+
+
+
+
+
+.order-box label{
+
+
+    display:block;
+
+
+
+    margin-top:18px;
+
+
+
+    color:#ffd700;
+
+
+
+    font-weight:bold;
+
+
+}
+
+
+
+
+
+/* SEND BUTTON */
+
+
+#sendOrder{
+
+
+    width:100%;
+
+
+
+    margin-top:22px;
+
+
+
+    padding:15px;
+
+
+
+
+
+    border:none;
+
+
+
+    border-radius:30px;
+
+
+
+
+
+    background:
+
+
+
+    linear-gradient(
+
+        90deg,
+
+        #ffd700,
+
+        #b88600
+
+    );
+
+
+
+
+
+    color:#000;
+
+
+
+    font-size:18px;
+
+
+
+    font-weight:900;
+
+
+
+
+    cursor:pointer;
+
+
+
+    transition:.3s;
+
+
+}
+
+
+
+
+
+#sendOrder:hover{
+
+
+    transform:translateY(-3px);
+
+
+
+    box-shadow:
+
+
+    0 0 20px #ffd700;
+
+
+}
+/* =========================
+BADGES
+========================= */
+
+
+.package-card .badge{
+
+    position:absolute;
+
+    top:10px;
+
+    right:10px;
+
+
+    background:#ffd700;
+
+    color:#000;
+
+
+    padding:5px 10px;
+
+
+    border-radius:15px;
+
+
+    font-size:11px;
+
+
+    font-weight:900;
+
+
+    box-shadow:
+
+    0 0 12px rgba(255,215,0,.6);
+
+}
+
+
+
+.package-card .badge.hot{
+
+    background:#ff3b30;
+
+    color:white;
+
+}
+
+
+
+.package-card .badge.best{
+
+    background:#00ff88;
+
+    color:#000;
+
+}
+
+
+
+
+
+/* =========================
+SPECIAL HERO CARD
+كاكا 👑
+========================= */
+
+
+.package-card.legendary{
+
+
+    border:2px solid #ffd700;
+
+
+    box-shadow:
+
+
+    0 0 35px rgba(255,215,0,.35);
+
+
+}
+
+
+
+.package-card.legendary h3{
+
+
+    color:#ffd700;
+
+
+}
+
+
+
+
+/* =========================
+CARD ANIMATION
+========================= */
+
+
+.package-card{
+
+
+    animation:
+
+    cardShow .5s ease;
+
+
+}
+
+
+
+
+@keyframes cardShow{
+
+
+    from{
+
+
+        opacity:0;
+
+
+        transform:translateY(20px);
+
+
+    }
+
+
+
+    to{
+
+
+        opacity:1;
+
+
+        transform:translateY(0);
+
+
+    }
+
+
+}
+
+
+
+
+
+/* =========================
+MOBILE VERSION
+========================= */
+
+
+@media(max-width:900px){
+
+
+    .cards{
+
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+
+        gap:12px;
+
+
+    }
+
+
+
+    .game-header{
+
+
+        padding:12px 15px;
+
+
+    }
+
+
+
+
+    .game-header .logo{
+
+
+        font-size:17px;
+
+
+    }
+
+
+
+
+    .game-title h1{
+
+
+        font-size:28px;
+
+
+    }
+
+
+}
+
+
+
+
+
+
+@media(max-width:500px){
+
+
+
+    .cards{
+
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+
+
+        gap:8px;
+
+
+    }
+
+
+
+
+    .package-card{
+
+
+        padding:12px 6px;
+
+
+        border-radius:15px;
+
+
+    }
+
+
+
+
+    .diamond-icon{
+
+
+        width:85px;
+
+
+        height:68px;
+
+
+    }
+
+
+
+
+
+    .package-card h3{
+
+
+        font-size:15px;
+
+
+    }
+
+
+
+
+
+    .package-card h4{
+
+
+        font-size:13px;
+
+
+    }
+
+
+
+
+
+    .package-card strong{
+
+
+        font-size:18px;
+
+
+    }
+
+
+
+
+
+    .quantity-box button{
+
+
+        width:32px;
+
+
+        height:32px;
+
+
+    }
+
+
+
+
+
+    .qty{
+
+
+        width:35px;
+
+
+    }
+
+
+
+
+
+    .order-box{
+
+
+        margin:25px 10px;
+
+
+        padding:18px;
+
+
+        border-radius:20px;
+
+
+    }
+
+
+}
+
+
+
+
+
+
+/* =========================
+SCROLL BAR
+========================= */
+
+
+::-webkit-scrollbar{
+
+
+    width:8px;
+
+
+}
+
+
+
+
+::-webkit-scrollbar-track{
+
+
+    background:#050505;
+
+
+}
+
+
+
+
+::-webkit-scrollbar-thumb{
+
+
+    background:#ffd700;
+
+
+    border-radius:10px;
+
+
+}
+
+
+
+
+
+/* =========================
+CLICK EFFECT
+========================= */
+
+
+.package-card:active{
+
+
+    transform:scale(.97);
+
+
+}
