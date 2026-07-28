@@ -982,6 +982,91 @@ STEAM CHECKOUT
 
 
 }
+
+/* =========================
+CASH COPY BOX STYLE
+========================= */
+
+.cash-box{
+
+    margin-top:15px;
+
+    text-align:right;
+
+}
+
+.cash-box label{
+
+    margin-top:0 !important;
+
+    margin-bottom:8px;
+
+    font-size:14px;
+
+}
+
+.copy-wrapper{
+
+    display:flex;
+
+    gap:10px;
+
+    align-items:center;
+
+}
+
+.copy-wrapper input{
+
+    margin-top:0 !important;
+
+    text-align:center;
+
+    font-weight:bold;
+
+    font-size:16px;
+
+    letter-spacing:1px;
+
+    background:#0b0b0b;
+
+    border:1px solid #d4af37;
+
+    color:#ffd700;
+
+}
+
+.copy-wrapper button{
+
+    height:48px;
+
+    padding:0 20px;
+
+    background:linear-gradient(90deg, #ffd700, #b88600);
+
+    color:#000;
+
+    border:none;
+
+    border-radius:12px;
+
+    font-weight:bold;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    white-space:nowrap;
+
+    transition:.3s;
+
+}
+
+.copy-wrapper button:hover{
+
+    box-shadow:0 0 12px rgba(255, 215, 0, 0.4);
+
+}
+
 /* =========================
 BADGES
 ========================= */
@@ -1354,27 +1439,4 @@ SCROLL BAR
 ::-webkit-scrollbar-thumb{
 
 
-    background:#ffd700;
-
-
-    border-radius:10px;
-
-
-}
-
-
-
-
-
-/* =========================
-CLICK EFFECT
-========================= */
-
-
-.package-card:active{
-
-
-    transform:scale(.97);
-
-
-}
+    background:#ffd70

@@ -5,7 +5,7 @@
 الرئيسية  
 </a>  </header>  <section class="game-title">  <h1>🎮 PUBG MOBILE</h1>  <p>  
 اختر باقاتك من طاقم ون بيس ⚔️  
-</p>  </section>  <section class="packages">  <h2>🔥 شدات PUBG</h2>  <div class="cards">  <!-- سانجي -->  <div class="package-card">  <div class="uc-icon">  
+</p>  </section>  <section class="packages">  <h2>🔥 شدات PUBG</h2>  <div class="cards">  <div class="package-card">  <div class="uc-icon">  
 <span>UC</span>  
 </div>  <h3>سانجي</h3>  <span>ساق السوداء</span>
 
@@ -27,7 +27,7 @@ data-uc="30 UC"
 data-price="30">
 
 
-</button>  </div>  </div>  <!-- زورو -->  <div class="package-card">  <div class="uc-icon">  
+</button>  </div>  </div>  <div class="package-card">  <div class="uc-icon">  
 <span>UC</span>  
 </div>  <h3>زورو</h3>  <span>صياد القراصنة</span>
 
@@ -49,7 +49,7 @@ data-uc="60 UC"
 data-price="55">
 
 
-</button>  </div>  </div>  <!-- لوفي -->  <div class="package-card">  <div class="uc-icon">  
+</button>  </div>  </div>  <div class="package-card">  <div class="uc-icon">  
 <span>UC</span>  
 </div>  <h3>لوفي</h3>  <span>قائد قبعة القش</span>
 
@@ -71,7 +71,7 @@ data-uc="325 UC"
 data-price="255">
 
 
-</button>  </div>  </div>  <!-- نامي -->  <div class="package-card">  <div class="uc-icon">  
+</button>  </div>  </div>  <div class="package-card">  <div class="uc-icon">  
 <span>UC</span>  
 </div>  <h3>نامي</h3>  <span>ملاحة الجراند لاين</span>
 
@@ -93,7 +93,7 @@ data-uc="660 UC"
 data-price="500">
 
 
-</button>  </div>  </div>  <!-- تشوبر -->  <div class="package-card">  <div class="uc-icon">  
+</button>  </div>  </div>  <div class="package-card">  <div class="uc-icon">  
 <span>UC</span>  
 </div>  <h3>تشوبر</h3>  <span>طبيب الطاقم</span>
 
@@ -115,7 +115,7 @@ data-uc="1800 UC"
 data-price="1245">
 
 
-</button>  </div>  </div>  <!-- شانكس -->  <div class="package-card">  <div class="uc-icon">  
+</button>  </div>  </div>  <div class="package-card">  <div class="uc-icon">  
 <span>UC</span>  
 </div>  <h3>شانكس</h3>  <span>الإمبراطور الأحمر</span>
 
@@ -138,9 +138,9 @@ data-price="2480">
 
 
 </button>  </div>  </div>  </div>  </section>  
-<!-- ================= المنتجات الإضافية ================= -->  <section class="extra-products">  <h2>  
+<section class="extra-products">  <h2>  
 ⭐ المنتجات الإضافية  
-</h2>  <div class="cards">  <!-- روبين -->  <div class="package-card">  <div class="uc-icon">  
+</h2>  <div class="cards">  <div class="package-card">  <div class="uc-icon">  
 <span>UC</span>  
 </div>  <h3>روبين</h3>  <span>عالمة الآثار</span>
 
@@ -162,7 +162,7 @@ data-uc="أول عملية شراء"
 data-price="54">
 
 
-</button>  </div>  </div>  <!-- كايدو -->  <div class="package-card">  <div class="uc-icon">  
+</button>  </div>  </div>  <div class="package-card">  <div class="uc-icon">  
 <span>UC</span>  
 </div>  <h3>كايدو</h3>  <span>أقوى مخلوق</span>
 
@@ -184,7 +184,7 @@ data-uc="حزمة الشعار الأسطوري"
 data-price="270">
 
 
-</button>  </div>  </div>  <!-- ميهوك -->  <div class="package-card">  <div class="uc-icon">  
+</button>  </div>  </div>  <div class="package-card">  <div class="uc-icon">  
 <span>UC</span>  
 </div>  <h3>ميهوك</h3>  <span>أعظم سياف</span>
 
@@ -206,7 +206,7 @@ data-uc="مواد تطوير الأسلحة"
 data-price="162">
 
 
-</button>  </div>  </div>  </div>  </section>  <!-- ================= صندوق الطلب ================= -->  <section class="order-box">  <h2>  
+</button>  </div>  </div>  </div>  </section>  <section class="order-box">  <h2>  
 🛒 طلبك  
 </h2>  <div id="cart">  لا توجد باقات
 
@@ -231,6 +231,14 @@ id="phone"
 type="tel"
 
 placeholder="📱 رقم الهاتف">
+
+<div class="cash-box">
+  <label>💳 رقم الكاش للتحويل:</label>
+  <div class="copy-wrapper">
+    <input type="text" id="cashNumber" value="01202105198" readonly>
+    <button type="button" id="copyBtn" onclick="copyCashNumber()">نسخ 📋</button>
+  </div>
+</div>
 
 <label for="paymentImage">  📸 إثبات الدفع
 

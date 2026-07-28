@@ -590,3 +590,35 @@ sendBtn.innerText="إرسال الطلب 🚀";
 
 
 });
+
+
+// =====================================
+// دالة نسخ رقم الكاش
+// =====================================
+
+function copyCashNumber() {
+    const cashInput = document.getElementById("cashNumber");
+    const copyBtn = document.getElementById("copyBtn");
+
+    if (!cashInput) return;
+
+    // نسخ النص للحافظة
+    cashInput.select();
+    cashInput.setSelectionRange(0, 99999); // للهواتف الذكية
+
+    navigator.clipboard.writeText(cashInput.value).then(() => {
+        // تغيير نص ولون الزر لتأكيد النسخ
+        const originalText = copyBtn.innerText;
+        copyBtn.innerText = "تم النسخ! ✓";
+        copyBtn.style.background = "#00ff88";
+        copyBtn.style.color = "#000";
+
+        setTimeout(() => {
+            copyBtn.innerText = originalText;
+            copyBtn.style.background = "";
+            copyBtn.style.color = "";
+        }, 1500);
+    }).catch(err => {
+        console.error("فشل النسخ: ", err);
+    });
+}

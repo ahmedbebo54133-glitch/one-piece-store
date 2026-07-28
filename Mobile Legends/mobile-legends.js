@@ -635,3 +635,63 @@ sendBtn.disabled=false;
 // تشغيل أولي
 
 updateCart();
+
+
+// =========================
+// دالة نسخ رقم الكاش (المحدثة والشاملة)
+// =========================
+
+function copyCashNumber() {
+    const cashInput = document.getElementById("cashNumber");
+    const copyBtn = document.getElementById("copyBtn");
+
+    if (!cashInput) return;
+
+    cashInput.select();
+    cashInput.setSelectionRange(0, 99999);
+
+    function successEffect() {
+        if (copyBtn) {
+            const originalText = copyBtn.innerText;
+            copyBtn.innerText = "تم النسخ! ✓";
+            copyBtn.style.background = "#00ff88";
+            copyBtn.style.color = "#000";
+
+            setTimeout(() => {
+                copyBtn.innerText = originalText;
+                copyBtn.style.background = "";
+                copyBtn.style.color = "";
+            }, 1500);
+        }
+    }
+
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            successEffect();
+            return;
+        }
+    } catch (err) {
+        console.log("ExecCommand failed, trying Clipboard API...");
+    }
+
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(cashInput.value)
+            .then(() => {
+                successEffect();
+            })
+            .catch(() => {
+                alert("⚠️ يرجى نسخ الرقم يدوياً: " + cashInput.value);
+            });
+    } else {
+        alert("⚠️ يرجى نسخ الرقم يدوياً: " + cashInput.value);
+    }
+}
+
+// تفعيل حدث الضغط على زر النسخ تلقائياً
+document.addEventListener("DOMContentLoaded", () => {
+    const copyBtn = document.getElementById("copyBtn");
+    if (copyBtn) {
+        copyBtn.addEventListener("click", copyCashNumber);
+    }
+});
