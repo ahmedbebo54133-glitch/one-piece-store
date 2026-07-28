@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>تسجيل الدخول | ONE PIECE STORE</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<link rel="stylesheet" href="login.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+</head>
+
+
+<body>
+
+
+<div class="bg-blur blur1"></div>
+<div class="bg-blur blur2"></div>
+
+
+
+<header class="login-header">
+
+
+<a href="../index.html" class="back-btn">
+🏠 الرئيسية
+</a>
+
+
+<div class="logo">
+
+<h1>🏴‍☠️ ONE PIECE</h1>
+
+<span>STORE</span>
+
+</div>
+
+
+</header>
+
+
+
+
+<section class="login-section">
+
+
+<div class="login-card">
+
+
+<h2>
+تسجيل الدخول
+</h2>
+
+
+<p>
+سجل دخولك للوصول إلى حسابك وطلباتك.
+</p>
+
+
+
+
+<form id="loginForm">
+
+
+
+<div class="input-box">
+
+
+<label>
+📧 البريد الإلكتروني أو رقم الهاتف
+</label>
+
+
+<input
+type="text"
+id="email"
+placeholder="أدخل البريد الإلكتروني أو رقم الهاتف">
+
+
+
+</div>
+
+
+
+
+
+<div class="input-box">
+
+
+<label>
+🔒 كلمة المرور
+</label>
+
+
+<input
+type="password"
+id="password"
+placeholder="أدخل كلمة المرور">
+
+
+
+</div>
+
+
+
+
+
+
+<div class="options">
+
+
+
+<label class="remember">
+
+
+<input type="checkbox" id="remember">
+
+
+<span>
+تذكرني
+</span>
+
+
+</label>
+
+
+
+
+
+<a href="javascript:void(0)" 
+class="forgot" 
+id="forgotPassword">
+
+نسيت كلمة المرور؟
+
+</a>
+
+
+
+
+</div>
+
+
+
+
+
+
+<button type="submit" class="login-btn">
+
+تسجيل الدخول
+
+</button>
+
+
+
+</form>
+
+
+
+
+
+
+
+<div class="divider">
+
+<span>
+أو
+</span>
+
+</div>
+
+
+
+
+
+
+<p class="register-text">
+
+ليس لديك حساب؟
+
+<a href="../register/register.html">
+
+إنشاء حساب جديد
+
+</a>
+
+
+</p>
+
+
+
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- نافذة استرجاع كلمة المرور -->
+
+<div class="forgot-box" id="forgotBox">
+
+
+
+<div class="forgot-card">
+
+
+
+<h3>
+🔐 استرجاع كلمة المرور
+</h3>
+
+
+
+
+
+<div id="phoneStep">
+
+
+<input
+type="text"
+id="forgotPhone"
+placeholder="أدخل رقم الهاتف">
+
+
+<button id="checkPhone">
+
+متابعة
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+<div id="securityArea" style="display:none;">
+
+
+
+<p id="securityQuestion">
+
+</p>
+
+
+
+
+<input
+type="text"
+id="securityAnswer"
+placeholder="إجابة السؤال الأمني">
+
+
+
+<button id="checkAnswer">
+
+تحقق
+
+</button>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<div id="newPasswordArea" style="display:none;">
+
+
+
+<input
+type="password"
+id="newPassword"
+placeholder="كلمة المرور الجديدة">
+
+
+
+<button id="savePassword">
+
+حفظ كلمة المرور
+
+</button>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<button id="closeForgot">
+
+إغلاق
+
+</button>
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<footer class="login-footer">
+
+
+<p>
+
+© 2026 ONE PIECE STORE
+
+</p>
+
+
+</footer>
+
+
+
+
+
+<script src="login.js"></script>
+
+
+</body>
+
+</html>
