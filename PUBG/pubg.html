@@ -197,6 +197,26 @@
     <button id="sendOrder">🚀 إرسال الطلب</button>  
   </section>  
 
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCzESSPVKJth9u6fWWGsUjuhBiBXNpE9k8",
+      authDomain: "one-piece-store-cf545.firebaseapp.com",
+      projectId: "one-piece-store-cf545",
+      storageBucket: "one-piece-store-cf545.firebasestorage.app",
+      messagingSenderId: "769363886823",
+      appId: "1:769363886823:web:9cd140fd57bc5d81a61842",
+      measurementId: "G-BG65QH6BG5"
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.firestore();
+  </script>
+
   <script src="pubg.js"></script>  
 </body>  
 </html>
