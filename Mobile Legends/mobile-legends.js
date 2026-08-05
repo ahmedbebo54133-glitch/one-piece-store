@@ -1,5 +1,5 @@
 // =====================================
-// ONE PIECE STORE - MOBILE LEGENDS (Firebase + Telegram Inline Buttons)
+// ONE PIECE STORE - MOBILE LEGENDS
 // =====================================
 
 // بيانات بوت التليجرام
@@ -172,23 +172,14 @@ function copyCashNumber() {
     copyDynamic("cashNumber", document.getElementById("copyBtn"));
 }
 
-// =====================================
-// إرسال الطلب وحفظه في Firebase وتليجرام
-// =====================================
 const sendOrderBtn = document.getElementById("sendOrder");
 if (sendOrderBtn) {
     sendOrderBtn.addEventListener("click", async () => {
         const playerId = document.getElementById("playerId").value.trim();
         const zoneId = document.getElementById("zoneId").value.trim();
-        const phoneInput = document.getElementById("phone").value.trim();
+        const phone = document.getElementById("phone").value.trim();
         const paymentImageInput = document.getElementById("paymentImage");
         const payment = paymentImageInput ? paymentImageInput.files[0] : null;
-
-        // معرفة بيانات الحساب المسجل حالياً في الجهاز
-        const loggedUser = JSON.parse(localStorage.getItem("user"));
-        
-        // ربط الطلب برقم الحساب المسجل لضمان ظهوره في البروفايل فوراً
-        const accountPhone = loggedUser ? loggedUser.phone : phoneInput;
 
         const activeTab = document.querySelector(".pay-tab.active");
         const selectedPaymentMethod = activeTab ? activeTab.innerText.trim() : "غير محدد";
@@ -208,7 +199,7 @@ if (sendOrderBtn) {
             return;
         }
 
-        if (phoneInput === "" && !accountPhone) {
+        if (phone === "") {
             alert("⚠️ أدخل رقم الهاتف");
             return;
         }
@@ -218,9 +209,6 @@ if (sendOrderBtn) {
             return;
         }
 
-        sendOrderBtn.disabled = true;
-        sendOrderBtn.innerText = "جاري إرسال الطلب... ⏳";
-
         let itemsText = "";
         let packagesData = [];
 
@@ -228,78 +216,39 @@ if (sendOrderBtn) {
             itemsText += `• ${item.name} × ${item.qty} = ${item.price * item.qty} ج.م\n`;
             packagesData.push({
                 name: item.name,
-                qty: item.qty,
-                price: item.price
+                qty: item.qty
             });
         });
 
         const total = document.getElementById("total").textContent;
-        const orderId = "OP" + Date.now();
+        const orderNumber = "OP-" + Date.now();
 
-        // 1. كائن بيانات الطلب
-        const orderData = {
-            orderId: orderId,
-            userPhone: accountPhone, // لضمان التطابق مع البروفايل
-            contactPhone: phoneInput, // رقم التواصل المكتوب
-            game: "MOBILE LEGENDS",
-            playerId: playerId,
-            zoneId: zoneId,
-            paymentMethod: selectedPaymentMethod,
-            packages: packagesData,
-            price: total,
-            date: new Date().toLocaleDateString("ar-EG"),
-            timestamp: new Date().getTime(),
-            status: "pending" // pending (قيد المراجعة) | approved (تم الشحن) | rejected (مرفوض)
-        };
-
-        try {
-            // حفظ الطلب في Firestore
-            if (typeof db !== "undefined") {
-                await db.collection("orders").doc(orderId).set(orderData);
-            }
-
-            // حفظ محلي في LocalStorage كنسخة احتياطية
-            let localOrders = JSON.parse(localStorage.getItem("orders")) || [];
-            localOrders.push(orderData);
-            localStorage.setItem("orders", JSON.stringify(localOrders));
-
-            // 2. تجهيز الرسالة للتليجرام
-            const captionText =
+        const captionText =
 `🏴‍☠️ *طلب شحن جديد - Mobile Legends* 🏴‍☠️
 
-🆔 *رقم الطلب:* \`${orderId}\`
 🎮 *ID اللاعب:* \`${playerId}\`
 🌐 *Server ID:* \`${zoneId}\`
-📱 *رقم الحساب:* \`${accountPhone}\`
-📞 *رقم التواصل:* \`${phoneInput}\`
+📱 *الهاتف:* \`${phone}\`
 💳 *طريقة الدفع:* \`${selectedPaymentMethod}\`
 
 📦 *الباقات المطلوبة:*
 ${itemsText}
 💰 *الإجمالي:* *${total} ج.م*
 
-📌 *الحالة الحالية:* ⏳ قيد المراجعة
-
+🧾 *رقم الطلب:* \`${orderNumber}\`
 ----------------------------------
 🏴‍☠️ ONE PIECE STORE`;
 
-            // أزرار التحكم الفورية في التليجرام
-            const replyMarkup = {
-                inline_keyboard: [
-                    [
-                        { text: "✅ قبول الشحنة", callback_data: `approve_${orderId}` },
-                        { text: "❌ رفض الشحنة", callback_data: `reject_${orderId}` }
-                    ]
-                ]
-            };
+        sendOrderBtn.disabled = true;
+        sendOrderBtn.innerText = "جاري إرسال الطلب... ⏳";
 
-            const formData = new FormData();
-            formData.append("chat_id", TELEGRAM_CHAT_ID);
-            formData.append("photo", payment);
-            formData.append("caption", captionText);
-            formData.append("parse_mode", "Markdown");
-            formData.append("reply_markup", JSON.stringify(replyMarkup));
+        const formData = new FormData();
+        formData.append("chat_id", TELEGRAM_CHAT_ID);
+        formData.append("photo", payment);
+        formData.append("caption", captionText);
+        formData.append("parse_mode", "Markdown");
 
+        try {
             const response = await fetch(
                 `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendPhoto`,
                 {
@@ -309,7 +258,25 @@ ${itemsText}
             );
 
             if (response.ok) {
-                alert(`✅ تم إرسال الطلب بنجاح!\n\n🧾 رقم الطلب: ${orderId}\n📌 حالة الطلب: ⏳ قيد المراجعة.`);
+                let orders = JSON.parse(localStorage.getItem("orders")) || [];
+                const user = JSON.parse(localStorage.getItem("user"));
+
+                orders.push({
+                    orderId: orderNumber,
+                    userPhone: user ? user.phone : phone,
+                    game: "MOBILE LEGENDS",
+                    playerId: playerId,
+                    zoneId: zoneId,
+                    paymentMethod: selectedPaymentMethod,
+                    packages: packagesData,
+                    price: total,
+                    date: new Date().toLocaleDateString("ar-EG"),
+                    status: "✅ تم الطلب بنجاح\n\n⏳ بانتظار إضافة شحنتك\n\n⚠️ في حالة التأخير كلم خدمة العملاء"
+                });
+
+                localStorage.setItem("orders", JSON.stringify(orders));
+
+                alert(`✅ تم إرسال الطلب بنجاح\n\n🧾 رقم الطلب: ${orderNumber}\n\n🏴‍☠️ ONE PIECE STORE`);
                 location.reload();
             } else {
                 alert("❌ حدث خطأ أثناء الإرسال");
@@ -317,8 +284,8 @@ ${itemsText}
                 sendOrderBtn.innerText = "🚀 إرسال الطلب";
             }
         } catch (error) {
-            console.error(error);
-            alert("❌ مشكلة في الاتصال بالشبكة");
+            console.log(error);
+            alert("❌ مشكلة في الاتصال");
             sendOrderBtn.disabled = false;
             sendOrderBtn.innerText = "🚀 إرسال الطلب";
         }
@@ -326,13 +293,6 @@ ${itemsText}
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // التعبئة التلقائية لرقم الهاتف إن وجد حساب مسجل
-    const loggedUser = JSON.parse(localStorage.getItem("user"));
-    const phoneInput = document.getElementById("phone");
-    if (loggedUser && loggedUser.phone && phoneInput && !phoneInput.value) {
-        phoneInput.value = loggedUser.phone;
-    }
-
     updateCart();
     const copyBtn = document.getElementById("copyBtn");
     if (copyBtn) {
